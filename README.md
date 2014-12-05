@@ -1,7 +1,5 @@
-Exbedia
-=======
-
 Exbedia Mobile App
+==================
 
 Exbedia Mobile App using hybrid approach. Frameworks used:
 
