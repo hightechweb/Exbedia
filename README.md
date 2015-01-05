@@ -26,8 +26,8 @@ Exbedia Mobile App using hybrid approach. Frameworks used:
     * make sure ANT_HOME is set, and
         * %ANT_HOME%\bin is in your path if on Windows
         * $ANT_HOME/bin is in your path if on Linux/Mac
-* Add ios support `ionic platform add android`
-* Build ios `ionic build android`
+* Add Android support `ionic platform add android`
+* Build Android `ionic build android`
 * Run emulator `ionic emulate android` (this will start an Android emulator and take some time)
     * You may need to manually install [HAXM](https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager-end-user-license-agreement) if you get errors like "HAX is not working..."
 * Run the app in the Android emulator `ionic run android`
