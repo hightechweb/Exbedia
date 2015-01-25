@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- ng-cordova library -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="exbedia">
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <button class="button button-energized" onclick="navigator.app.backHistory()">
+          <i class="icon ion-chevron-left"></i>
+          Redo Search
+        </button>
+        <h1 class="title">
+          Search results
+        </h1>
+      </ion-header-bar>
+      <ion-content ng-controller="SearchParamsController">
+        <div class="list">
+          <div class="item">
+            Search criteria: <br>
+            {{ params | json }}
+          </div>
+          <a class="item item-thumbnail-left" href="#" ng-repeat="i in results(10) track by $index">
+            <!-- TODO: just a placeholder for the hotel image -->
+            <img src="img/ionic.png">
+            <h2>
+              {{ $index+1 }}
+            </h2>
+            <address>
+              Hotel Seattle <br>
+              1234 5th ST <br>
+              Seattle, WA 98101
+            </address>
+          </a>
+        </div>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
