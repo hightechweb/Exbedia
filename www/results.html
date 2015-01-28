@@ -49,23 +49,23 @@
             {{ params | json }}
           </div> -->
           <!-- Geofire results -->
-          <div ng-repeat="hotel in hotels track by $index">
+          <div ng-repeat="hotel in hotels | orderBy:'distance'">
             <div class="item item-divider item-text-wrap">
-              <div class="positive">
-                {{ hotel.Name }}
-              </div>
+              <span class="positive">{{ hotel.info.Name }}</span>
+              <br>
+              <span class="dark">{{ hotel.distance | number : 2 }}km away</span>
             </div>
             <a class="item item-text-wrap item-thumbnail-left" href="#">
               <!-- TODO: just a placeholder for the hotel image -->
               <img src="img/ionic.png">
-              <div style="text-align:right;">
+              <div class="right">
                 <address>
-                  ({{ hotel.Location }}) <br>
-                  {{ hotel.Address1 }} <br>
-                  {{ hotel.Address2 }} <br> <!-- TODO: only add a line break if Address2 is set -->
-                  {{ hotel.City + ", " + hotel.StateProvince + " " + hotel.PostalCode}} 
+                  ({{ hotel.info.Location }}) <br>
+                  {{ hotel.info.Address1 }} <br>
+                  {{ hotel.info.Address2 }} <br> <!-- TODO: only add a line break if Address2 is set -->
+                  {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode}} 
                 </address>
-                <span class="balanced">As low as {{ hotel.LowRate | currency }}!</span>
+                <span class="balanced">As low as {{ hotel.info.LowRate | currency }}!</span>
               </div>
             </a>
           </div>

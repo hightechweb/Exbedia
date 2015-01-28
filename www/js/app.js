@@ -86,10 +86,12 @@ exbedia.controller('SearchParamsController', function($scope, $location, $fireba
     if (i++ >= 20) return; // Stop at 20
     var hotelResult = $firebase(fb_hotels.child(hotelID));
     var hotelObject = hotelResult.$asObject();
-    console.log(hotelObject);
     if (hotelObject) {
-      // TODO: figure out how to get the distance on the hotelObjeect; just setting a property doesn't work
-      $scope.hotels.push(hotelObject);
+      var hotel = {
+        info: hotelObject,
+        distance: distance
+      };
+      $scope.hotels.push(hotel);
     }
   });
 });
