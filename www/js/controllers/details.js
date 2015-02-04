@@ -1,0 +1,2 @@
+exbedia.controller("DetailsController", function() {
+});
