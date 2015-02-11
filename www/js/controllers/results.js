@@ -4,23 +4,17 @@
 
 function firebaseAuth(error) {
   if (error) {
-    alert('Failed to authenticate to Firebase using token:'+ AUTH);
+    console.log('Failed to authenticate to Firebase using token:'+ AUTH);
   }
-}
-
+} 
 exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire) {
   // Get the querystring parameters; temporarily being displayed as raw JSON
   $scope.params = $location.search();
 
-  // Uses JS to go back 1 page in the browser history, which should be the search page
-  $scope.gotoSearch = function() {
-    history.back();
-  };
-
   $scope.hotels = [];
 
   // Below is all the code required to do a search for hotels based on geolocation
-  var AUTH = 'UPDATE ME THIS IS NOT A REAL KEY';
+  var AUTH = ''; // TODO: remove before commit
   var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
   var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
   var fb_hotels = new Firebase(hotels_url);
