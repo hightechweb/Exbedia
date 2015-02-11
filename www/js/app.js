@@ -20,20 +20,21 @@ exbedia.config(function($routeProvider, $locationProvider) {
    $locationProvider.html5Mode(true); 
    $routeProvider.
 		when('/search', {
-			templateUrl: 'views/search.html',
+			templateUrl: '/views/search.html',
 			controller: 'SearchController'
 		}).
 		when('/results', {
-			templateUrl: 'views/results.html',
+			templateUrl: '/views/results.html',
 			controller: 'ResultsController'
 		}).
 		when('/details', { // /:pId
-			templateUrl: 'views/details',
+			templateUrl: '/views/details.html',
 			controller: 'DetailsController'
 		}).
 		otherwise({
 			redirectTo: '/search'
 		});
+        
 }); 
 
 exbedia.run(function($ionicPlatform, $cordovaGeolocation) {

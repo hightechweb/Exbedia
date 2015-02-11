@@ -44,6 +44,8 @@
         </h1>
       </ion-header-bar>
       <ion-content>
+        <div id="main" ng-view>
+        </div>
         <!-- <div id="map">
           TODO: place a Google map view here
         </div> -->
@@ -64,11 +66,11 @@
           </ion-checkbox>
           <input type="submit" value="Find Hotels" class="button button-block button-balanced">
         </form> -->
-		<form name ="searchForm" ng-controller="SearchController as searchCtrl" ng-submit="searchCtrl.search()">
+<!-- 		<form name ="searchForm" ng-controller="SearchController as searchCtrl" ng-submit="searchCtrl.search()">
 			<label>Location:</label>
 			<input ng-model="searchCtrl.location" type="text" required/>
 			<input type="submit" />
-		</form>
+		</form> -->
       </ion-content>
     </ion-pane>
   </body>
