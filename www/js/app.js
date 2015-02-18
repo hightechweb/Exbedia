@@ -95,3 +95,18 @@ exbedia.controller('SearchParamsController', function($scope, $location, $fireba
     }
   });
 });
+
+/**
+ * Controllers for results view
+ */
+ exbedia.controller('DetailsController', function($scope, $firebase) {
+	var AUTH = 'UPDATE ME THIS IS NOT A REAL KEY';
+	var hotel_url = 'https://glowing-heat-3430.firebaseio.com/hotels/272117'; 
+	var fb_hotel = new Firebase(hotel_url);
+	var hotelResult = $firebase(fb_hotel);
+	var hotelObject = hotelResult.$asObject();
+	
+	$scope.hotel = {
+		info: hotelObject
+	}
+});
