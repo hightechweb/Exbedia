@@ -19,7 +19,7 @@ exbedia.controller('SearchController', function($scope, $location, $cordovaGeolo
     };
   
     $scope.formSubmit = function(query) {
-        console.log("We are trying to submit now..."):
+        console.log("We are trying to submit now...");
         $location.search(query);
         $location.path("/results");
     };
