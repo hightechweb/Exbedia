@@ -9,91 +9,52 @@
  * 8. Wait...
  */
 
-var exbedia = angular.module('exbedia', ['ionic', 'ngCordova', 'firebase', 'angularGeoFire']);
+var exbedia = angular.module('exbedia',
+    [
+        'ionic',
+        'ngCordova',
+        'ngRoute',
+        'firebase',
+        'angularGeoFire',
+        'exbediaControllers'
+    ]
+);
 
-exbedia.config(function($locationProvider) {
-  $locationProvider.html5Mode(true);
-});
+var exbediaControllers = angular.module('exbediaControllers',
+    [
+        'ionic',
+        'ngCordova',
+        'firebase',
+        'angularGeoFire'
+    ]
+);
 
-exbedia.run(function($ionicPlatform, $cordovaGeolocation){
-  $ionicPlatform.ready(function() {
-    // Noop; TODO: not sure if we need to do anything here
-    return;
-  });
-});
-
-/**
- * Controllers for search view
- */
-exbedia.controller('SeachController', function($scope, $cordovaGeolocation) {
-  $scope.getLoc = function() {
-    if ($scope.useCurrentLocation) {
-      navigator.geolocation.getCurrentPosition(function(position){
-        var lat  = position.coords.latitude;
-        var lon = position.coords.longitude;
-        $scope.$apply(function() {
-          $scope.lat = lat;
-          $scope.lon = lon;
+exbedia.config(function($routeProvider, $locationProvider) { 
+   $locationProvider.html5Mode(true);
+   // The irony here, is when you navigate to /search you get an error - apparently this is how angular works
+   $routeProvider.
+        when('/search', {
+            templateUrl: '/views/search.html',
+            controller: 'SearchController'
+        }).
+        when('/results', {
+            templateUrl: '/views/results.html',
+            controller: 'ResultsController'
+        }).
+        when('/details', { // TODO: should be "/details:id" where id is the hotel/property ID
+            templateUrl: '/views/details.html', // TODO: not implemented yet
+            controller: 'DetailsController'  // TODO: not implemented yet
+        }).
+        otherwise({
+            redirectTo: '/search'
         });
-      });
-    }
-  };
-});
+}); 
 
-/**
- * Controllers for results view
- */
-
-function firebaseAuth(error) {
-  if (error) {
-    alert('Failed to authenticate to Firebase using token:'+ AUTH);
-  }
-}
-exbedia.controller('SearchParamsController', function($scope, $location, $firebase, $geofire) {
-  // Get the querystring parameters; temporarily being displayed as raw JSON
-  $scope.params = $location.search();
-
-  // Uses JS to go back 1 page in the browser history, which should be the search page
-  $scope.gotoSearch = function() {
-    history.back();
-  };
-
-  $scope.hotels = [];
-
-  // Below is all the code required to do a search for hotels based on geolocation
-  var AUTH = 'UPDATE ME THIS IS NOT A REAL KEY';
-  var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
-  var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
-  var fb_hotels = new Firebase(hotels_url);
-  fb_hotels.authWithCustomToken(AUTH, firebaseAuth);
-  var fb_geodata = new Firebase(geodata_url);
-  fb_geodata.authWithCustomToken(AUTH, firebaseAuth);
-
-  var geoFire = $geofire(fb_geodata);
-    
-  var geoFireQuery = geoFire.$query({
-      center: [parseFloat($scope.params.lat), parseFloat($scope.params.lon)],
-      radius: 10
-  });
-
-  // Setup Angular Broadcast event for when an object enters our query
-  var geoQueryCallback = geoFireQuery.on("key_entered", "SEARCH:KEY_ENTERED");
-  
-  var numResults = 20; // TODO: temporarily hardcoded
-  var i = 0;
-  // Listen for Angular Broadcast
-  $scope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
-    if (i++ >= 20) return; // Stop at 20
-    var hotelResult = $firebase(fb_hotels.child(hotelID));
-    var hotelObject = hotelResult.$asObject();
-    if (hotelObject) {
-      var hotel = {
-        info: hotelObject,
-        distance: distance
-      };
-      $scope.hotels.push(hotel);
-    }
-  });
+exbedia.run(function($ionicPlatform, $cordovaGeolocation) {
+    $ionicPlatform.ready(function() {
+        // Noop; not sure if we need to do anything here
+        return;
+    });
 });
 
 /**
