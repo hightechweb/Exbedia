@@ -9,41 +9,50 @@
  * 8. Wait...
  */
 
-var exbedia = angular.module('exbedia', ['ionic', 'ngCordova', 'ngRoute', 'firebase', 'angularGeoFire', 'exbediaControllers']);
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
+var exbedia = angular.module('exbedia',
+    [
+        'ionic',
+        'ngCordova',
+        'ngRoute',
+        'firebase',
+        'angularGeoFire',
+        'exbediaControllers'
+    ]
+);
 
-var exbediaControllers = angular.module('exbediaControllers', ['ionic', 'ngCordova', 'firebase', 'angularGeoFire']);
+var exbediaControllers = angular.module('exbediaControllers',
+    [
+        'ionic',
+        'ngCordova',
+        'firebase',
+        'angularGeoFire'
+    ]
+);
 
 exbedia.config(function($routeProvider, $locationProvider) { 
-   $locationProvider.html5Mode(true); 
+   $locationProvider.html5Mode(true);
+   // The irony here, is when you navigate to /search you get an error - apparently this is how angular works
    $routeProvider.
-		when('/search', {
-			templateUrl: '/views/search.html',
-			controller: 'SearchController'
-		}).
-		when('/results', {
-			templateUrl: '/views/results.html',
-			controller: 'ResultsController'
-		}).
-		when('/details', { // /:pId
-			templateUrl: '/views/details.html',
-			controller: 'DetailsController'
-		}).
-		otherwise({
-			redirectTo: '/search'
-		});
-        
+        when('/search', {
+            templateUrl: '/views/search.html',
+            controller: 'SearchController'
+        }).
+        when('/results', {
+            templateUrl: '/views/results.html',
+            controller: 'ResultsController'
+        }).
+        when('/details', { // TODO: should be "/details:id" where id is the hotel/property ID
+            templateUrl: '/views/details.html', // TODO: not implemented yet
+            controller: 'DetailsController'  // TODO: not implemented yet
+        }).
+        otherwise({
+            redirectTo: '/search'
+        });
 }); 
 
 exbedia.run(function($ionicPlatform, $cordovaGeolocation) {
-  $ionicPlatform.ready(function() {
-    // Noop; TODO: not sure if we need to do anything here
-    return;
-  });
+    $ionicPlatform.ready(function() {
+        // Noop; not sure if we need to do anything here
+        return;
+    });
 });
-
-
-
-

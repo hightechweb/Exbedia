@@ -1,17 +1,9 @@
-<!-- TODOs:
-* Update the heading - probably use $scope.pageHeading or something...
-* A back button, that retains the search query params
-* Update thumbnail to show actual photo
-* Clean up :)
--->
-
 <div class="card">
   <!-- TODO: remove the following div once we figure out search from a city, etc.  -->
   <!-- <div class="item">
     Search criteria: <br>
     {{ params | json }}
   </div> -->
-  <!-- Geofire results -->
   <div ng-repeat="hotel in hotels | orderBy:'distance'">
     <div class="item item-divider item-text-wrap">
       <span class="positive">{{ hotel.info.Name }}</span>
