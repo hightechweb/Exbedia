@@ -15,11 +15,21 @@ var exbedia = angular.module('exbedia',
         'ngCordova',
         'firebase',
         'angularGeoFire',
-        'exbediaControllers'
+        'exbediaControllers',
+        'exbediaFilters'
     ]
 );
 
 var exbediaControllers = angular.module('exbediaControllers',
+    [
+        'ionic',
+        'ngCordova',
+        'firebase',
+        'angularGeoFire'
+    ]
+);
+
+var exbediaFilters = angular.module('exbediaFilters',
     [
         'ionic',
         'ngCordova',

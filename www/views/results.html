@@ -13,8 +13,7 @@
               <span class="dark">{{ hotel.distance | number : 2 }}km away</span>
             </div>
             <a class="item item-text-wrap item-thumbnail-left" href="#">
-              <!-- TODO: just a placeholder for the hotel image -->
-              <img src="img/ionic.png">
+              <img src="{{ hotel.info.Images | defaultImageUrl }}">
               <div class="right">
                 <address>
                   ({{ hotel.info.Location }}) <br>
