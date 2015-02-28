@@ -14,9 +14,6 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-	
-    <!-- ng-route -->
-    <script src="lib/angular-route/angular-route.min.js"></script>
     
     <!-- ng-cordova library -->
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
@@ -43,35 +40,10 @@
           Exbedia Hotel Search
         </h1>
       </ion-header-bar>
-      <ion-content>
-        <div id="main" ng-view>
-        </div>
-        <!-- <div id="map">
+      <ion-nav-view></ion-nav-view>
+      <!-- <div id="map">
           TODO: place a Google map view here
         </div> -->
-<!--         <form action="results.html" novalidate ng-controller="SeachController">
-          <label class="item item-input" ng-hide="useCurrentLocation">
-            <i class="icon ion-search placeholder-icon"></i>
-            <input type="text" placeholder="Search by location" name="search" id="search">
-          </label>
-          <label class="item item-input" ng-show="useCurrentLocation">
-            <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="lat"> 
-          </label>
-          <label class="item item-input" ng-show="useCurrentLocation">
-            <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="lon">
-          </label>
-          <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc()">
-            <i class="icon ion-location"></i>
-            Use current location
-          </ion-checkbox>
-          <input type="submit" value="Find Hotels" class="button button-block button-balanced">
-        </form> -->
-<!-- 		<form name ="searchForm" ng-controller="SearchController as searchCtrl" ng-submit="searchCtrl.search()">
-			<label>Location:</label>
-			<input ng-model="searchCtrl.location" type="text" required/>
-			<input type="submit" />
-		</form> -->
-      </ion-content>
     </ion-pane>
   </body>
 </html>
