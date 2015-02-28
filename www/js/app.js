@@ -40,7 +40,7 @@ var exbediaFilters = angular.module('exbediaFilters',
 
 exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) { 
     $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise('/');
+    
     $stateProvider.
         state('search', {
             url: '/',
@@ -52,11 +52,13 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: './views/results.html',
             controller: 'ResultsController'
         }).
-        state('details', { // TODO: should be "/details:id" where id is the hotel/property ID
-            url: '/details',
-            templateUrl: './views/details.html', // TODO: not implemented yet
-            controller: 'DetailsController'  // TODO: not implemented yet
+        state('details', {
+            url: '/details:hotelID',
+            templateUrl: './views/details.html',
+            controller: 'DetailsController'
         });
+
+    $urlRouterProvider.otherwise('/');
 });
 
 exbedia.run(function($ionicPlatform, $cordovaGeolocation) {
@@ -64,19 +66,4 @@ exbedia.run(function($ionicPlatform, $cordovaGeolocation) {
         // Noop; not sure if we need to do anything here
         return;
     });
-});
-
-/**
- * Controllers for results view
- */
- exbedia.controller('DetailsController', function($scope, $firebase) {
-	var AUTH = 'UPDATE ME THIS IS NOT A REAL KEY';
-	var hotel_url = 'https://glowing-heat-3430.firebaseio.com/hotels/272117'; 
-	var fb_hotel = new Firebase(hotel_url);
-	var hotelResult = $firebase(fb_hotel);
-	var hotelObject = hotelResult.$asObject();
-	
-	$scope.hotel = {
-		info: hotelObject
-	}
 });

@@ -1,4 +1,50 @@
 <ion-view>
-    <ion-content ng-controller="DetailsController" title="Details">
-    </ion-content>
+  <ion-content ng-controller="DetailsController" title="Details" >
+    <div class="list card" ng-show="hotel">
+      <div class="item item-text-wrap">
+        <h2>{{ hotel.info.Name }}</h2>
+      </div>
+      <div class="item item-image">
+        <img ng-src="{{ hotel.info.Images | defaultImageUrl }}">
+      </div>
+      <!-- TODO: place a image gallery -->
+
+      <div class="item item-text-wrap">
+        <h2>Star Rating</h2>
+        {{ hotel.info.StarRating }}
+        <br>
+        <br>
+        <h2>Address</h2>
+        {{ hotel.info.Address1 }}
+        <br>
+        {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode }}
+        <br>
+        <br>
+        <h2>Directions</h2>
+        <a class="assertive" href="#">
+          <i class="icon ion-location"></i>
+          View Hotel on map
+        </a>
+        <br>
+        <br>
+
+        <!-- TODO: add more detials -->
+
+        <!-- TODO: update to use ionic components -->
+        <div class="row">
+          <div class="item col col-40">
+            <input type="text" placeholder="Check in" name="check-in" id="check-in">
+          </div>
+          <div class="item col col-40">
+            <input type="text" placeholder="Check out" name="check-out" id="check-out">
+          </div>
+          <div class="item col col-20">
+            <input type="text" placeholder="Number of Guests" name="num_guests" id="num_guests">
+          </div>
+        </div>
+
+        <button class="button button-block button-balanced">check for availability</button>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>
