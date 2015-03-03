@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Kim's test</title>
+
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="autocomplete.css">
+    
+    <!-- Required dependencies -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script src="angular/angular.js"></script>
+
+    <!-- Google Places Autocomplete directive -->
+    <script src="autocomplete.js"></script>
+    <script>
+    	angular.module('myApp', ['google.places'])
+    		.controller('MainApp', function ($scope) {
+    			$scope.city = null;
+                    $scope.autocompleteOptions = {
+                        componentRestrictions: { country: 'us' },
+                        types: ['geocode']
+                    }
+    		});
+    </script>
+</head>
+<body ng-controller="MainApp">
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Kim's autocomplete</h1>
+			<form class="form">
+				<input class="form-control" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="city"/>
+			</form>
+			<h5>Results:</h5>
+			<p>{{city.geometry.location}}</p>
+		</div>
+	</div>
+</div>
+</body>
+</html>
