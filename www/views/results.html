@@ -7,6 +7,7 @@
       {{ params | json }}
     </div>
     -->
+     <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="goToSearch()">Back</a>
     <div class="card">
       <div ng-repeat="hotel in hotels | orderBy:'distance'">
         <div class="item item-divider item-text-wrap">
