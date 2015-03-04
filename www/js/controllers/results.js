@@ -45,4 +45,9 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
             $scope.hotels.push(hotel);
         }
     });
+    
+    $scope.goToSearch = function() {
+        // navigate to search view
+        $location.path("/search");
+    }
 });
