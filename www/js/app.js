@@ -60,6 +60,7 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 });
 
 exbedia.run(function($ionicPlatform, $cordovaGeolocation, $rootScope) {
+    $rootScope.current = {};
     $ionicPlatform.ready(function() {
         // Noop; not sure if we need to do anything here
         return;
