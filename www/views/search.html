@@ -1,27 +1,21 @@
-<html ng-app="exbedia">
 <form name="searchForm">
     <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc()" >
         <i class="icon ion-location"></i>
         Use current location
     </ion-checkbox>
-    <label class="item item-input" ng-hide="useCurrentLocation">
+    <label class="item item-input" ng-hide="useCurrentLocation" ng-controller="AutocompleteController">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Search by location" name="search" id="search" ng-model="query.searchString">
+        <input class="form-control" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="city"/>
+        <h5>Results:</h5>
+        <p>Latitude {{city.geometry.location.k}}</p>
+        <p>Longitude {{city.geometry.location.D}}</p>
     </label>
+    <!--
     <label class="item item-input" ng-show="useCurrentLocation">
         <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="query.lat"> 
     </label>
     <label class="item item-input" ng-show="useCurrentLocation">
         <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="query.lon">
     </label>
-    <div ng-controller="AutocompleteController">
-        <form class="form">
-            <input class="form-control" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="city" placeholder="Search by city"/>
-        </form>
-        <h5>Results:</h5>
-        <p>Latitude {{city.geometry.location.k}}</p>
-        <p>Longitude {{city.geometry.location.D}}</p>
-    </div>
-    <input type="submit" value="Find Hotels" class="button button-block button-balanced" ng-click="formSubmit(query)">
+    <input type="submit" value="Find Hotels" class="button button-block button-balanced" ng-click="formSubmit(query)">    -->
 </form>
-</html>

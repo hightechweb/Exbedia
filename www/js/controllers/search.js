@@ -18,4 +18,5 @@ exbedia.controller('SearchController', function($scope, $location, $cordovaGeolo
         $location.search(query);
         $location.path("/results");
     };
+
 });
