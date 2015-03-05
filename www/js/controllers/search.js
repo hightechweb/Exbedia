@@ -1,6 +1,6 @@
 exbedia.controller('SearchController', function($rootScope, $location, $cordovaGeolocation) {
     $rootScope.getLoc = function() {        
-        if ($rootScope.current.useCurrentLocation) {
+        if ($rootScope.current.useCurrentLocation) { // TODO: refactor
             navigator.geolocation.getCurrentPosition(function(position) { 
                 $rootScope.$apply(function() {   
                     $rootScope.query = {

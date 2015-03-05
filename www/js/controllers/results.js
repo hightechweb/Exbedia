@@ -6,7 +6,6 @@ function firebaseAuth(error) {
 
 exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire, $rootScope, $ionicViewService) {
     // Get the search parameters from the search controller
-    $scope.params = $rootScope.query;
     $scope.hotels = [];
 
     // Below is all the code required to do a search for hotels based on geolocation
@@ -20,7 +19,7 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
     var geoFire = $geofire(fb_geodata);
     
     var geoFireQuery = geoFire.$query({
-        center: [parseFloat($scope.params.lat), parseFloat($scope.params.lon)],
+        center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
         radius: 10 // TODO: maybe make this a dynamic value
     });
 
@@ -46,7 +45,7 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
     });
     
     $scope.navigateToSearch = function() {
-        // navigate to search view, search are parameters maintained
+        // navigate to search view with search parameters maintained
         $location.path($ionicViewService.getBackView());
     }
 });
