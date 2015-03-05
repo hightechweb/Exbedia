@@ -14,10 +14,10 @@
     <script src="lib/angular/angular.js"></script>
 
     <!-- Google Places Autocomplete directive -->
-    <script src="js/autocomplete.js"></script>
+    <script src="lib/angular-google-places-autocomplete/src/autocomplete.js"></script>
     <script>
     	angular.module('myApp', ['google.places'])
-    		.controller('MainApp', function ($scope) {
+    		.controller('autocompleteController', function($scope) {
                 //Setup a basic controller with scope variable 'city'
     			$scope.city = null;
                 //restricting search option to US only
@@ -28,7 +28,7 @@
     		});
     </script>
 </head>
-<body ng-controller="MainApp">
+<body ng-controller="autocompleteController">
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">

@@ -1,3 +1,4 @@
+<html ng-app="exbedia">
 <form name="searchForm">
     <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc()" >
         <i class="icon ion-location"></i>
@@ -13,5 +14,14 @@
     <label class="item item-input" ng-show="useCurrentLocation">
         <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="query.lon">
     </label>
+    <div ng-controller="AutocompleteController">
+        <form class="form">
+            <input class="form-control" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="city" placeholder="Search by city"/>
+        </form>
+        <h5>Results:</h5>
+        <p>Latitude {{city.geometry.location.k}}</p>
+        <p>Longitude {{city.geometry.location.D}}</p>
+    </div>
     <input type="submit" value="Find Hotels" class="button button-block button-balanced" ng-click="formSubmit(query)">
 </form>
+</html>

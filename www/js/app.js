@@ -16,7 +16,8 @@ var exbedia = angular.module('exbedia',
         'ngRoute',
         'firebase',
         'angularGeoFire',
-        'exbediaControllers'
+        'exbediaControllers',
+        'google.places'
     ]
 );
 
