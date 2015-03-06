@@ -1,4 +1,4 @@
-exbedia.controller("DetailsController", function($scope, $rootScope) {
+exbedia.controller("DetailsController", function($scope, $rootScope, $ionicSlideBoxDelegate) {
      /**
       * NOOP.
       * We don't have to do the following because this
@@ -7,4 +7,9 @@ exbedia.controller("DetailsController", function($scope, $rootScope) {
       *
       * $scope.hotel = $rootScope.hotel;
       */
+
+		
+	$scope.nextSlide = function() {
+		$ionicSlideBoxDelegate.next();
+	}
 });

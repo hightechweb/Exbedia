@@ -4,10 +4,18 @@
       <div class="item item-text-wrap">
         <h2>{{ hotel.info.Name }}</h2>
       </div>
-      <div class="item item-image">
-        <img ng-src="{{ hotel.info.Images | defaultImageUrl }}">
+
+      <div class="item center">
+        <ion-slide-box show-pager="true"
+                        does-continue="true">
+          <ion-slide ng-repeat="image in hotel.info.Images">
+              <img ng-src="{{image.imageUrl}}" />
+              <br>
+              <!-- Todo: remove the button -->
+              <button ng-click="nextSlide()">next</button>
+          </ion-slide>
+        </ion-slide-box>
       </div>
-      <!-- TODO: place a image gallery -->
 
       <div class="item item-text-wrap">
         <h2>Star Rating</h2>
