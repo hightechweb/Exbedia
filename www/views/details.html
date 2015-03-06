@@ -6,13 +6,10 @@
       </div>
 
       <div class="item center">
-        <ion-slide-box show-pager="true"
+        <ion-slide-box show-pager="false"
                         does-continue="true">
           <ion-slide ng-repeat="image in hotel.info.Images">
-              <img ng-src="{{image.imageUrl}}" />
-              <br>
-              <!-- Todo: remove the button -->
-              <button ng-click="nextSlide()">next</button>
+              <img ng-src="{{image.imageUrl}}" height="250" width="auto"/>
           </ion-slide>
         </ion-slide-box>
       </div>
