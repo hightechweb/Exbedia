@@ -1,4 +1,4 @@
-exbedia.controller('SearchController', function($scope, $location, $cordovaGeolocation) {
+exbedia.controller('SearchController', function($scope, $location, $cordovaGeolocation, $rootScope) {
     $scope.query = {};
     $scope.googlePlaceData = null;
     //restricting search option to US only
@@ -42,7 +42,7 @@ exbedia.controller('SearchController', function($scope, $location, $cordovaGeolo
 
         console.log("We are trying to submit now...");
         // Navigate to the results view with the specified parameters
-        $location.search(query);
+        $rootScope.searchParams = query;
         $location.path("/results");
     };
 

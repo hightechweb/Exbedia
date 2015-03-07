@@ -13,11 +13,11 @@ var exbedia = angular.module('exbedia',
     [
         'ionic',
         'ngCordova',
-        'ngRoute',
         'firebase',
         'angularGeoFire',
         'exbediaControllers',
-        'google.places'
+        'google.places',
+        'exbediaFilters'
     ]
 );
 
@@ -30,26 +30,35 @@ var exbediaControllers = angular.module('exbediaControllers',
     ]
 );
 
-exbedia.config(function($routeProvider, $locationProvider) { 
-   $locationProvider.html5Mode(true);
-   // The irony here, is when you navigate to /search you get an error - apparently this is how angular works
-   $routeProvider.
-        when('/search', {
-            templateUrl: '/views/search.html',
+var exbediaFilters = angular.module('exbediaFilters',
+    [
+        'ionic',
+        'ngCordova',
+        'firebase',
+        'angularGeoFire'
+    ]
+);
+
+exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) { 
+    $locationProvider.html5Mode(true);
+    $urlRouterProvider.otherwise('/');
+    $stateProvider.
+        state('search', {
+            url: '/',
+            templateUrl: './views/search.html',
             controller: 'SearchController'
         }).
-        when('/results', {
-            templateUrl: '/views/results.html',
+        state('results', {
+            url: '/results',
+            templateUrl: './views/results.html',
             controller: 'ResultsController'
         }).
-        when('/details', { // TODO: should be "/details:id" where id is the hotel/property ID
-            templateUrl: '/views/details.html', // TODO: not implemented yet
+        state('details', { // TODO: should be "/details:id" where id is the hotel/property ID
+            url: '/details',
+            templateUrl: './views/details.html', // TODO: not implemented yet
             controller: 'DetailsController'  // TODO: not implemented yet
-        }).
-        otherwise({
-            redirectTo: '/search'
         });
-}); 
+});
 
 exbedia.run(function($ionicPlatform, $cordovaGeolocation) {
     $ionicPlatform.ready(function() {

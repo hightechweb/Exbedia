@@ -4,9 +4,9 @@ function firebaseAuth(error) {
     }
 }
 
-exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire) {
-    // Get the querystring parameters; temporarily being displayed as raw JSON
-    $scope.params = $location.search();
+exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire, $rootScope) {
+    // Get the search parameters from the search controller
+    $scope.params = $rootScope.searchParams;
 
     $scope.hotels = [];
 
