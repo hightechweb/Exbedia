@@ -7,7 +7,7 @@
             </ion-checkbox>
             <label class="item item-input" ng-hide="useCurrentLocation">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search by location" name="search" id="search" ng-model="query.searchString">
+                <input g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
             </label>
             <label class="item item-input" ng-show="useCurrentLocation">
                 <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="query.lat"> 

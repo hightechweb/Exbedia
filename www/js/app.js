@@ -16,6 +16,7 @@ var exbedia = angular.module('exbedia',
         'firebase',
         'angularGeoFire',
         'exbediaControllers',
+        'google.places',
         'exbediaFilters'
     ]
 );
