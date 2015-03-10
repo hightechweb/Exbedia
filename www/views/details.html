@@ -16,15 +16,16 @@
 
       <div class="item item-text-wrap">
         <h2>Star Rating</h2>
+        <!-- TODO: show star rating with stars -->
         {{ hotel.info.StarRating }}
-        <br>
-        <br>
+        <br><br>
+        
         <h2>Address</h2>
         {{ hotel.info.Address1 }}
         <br>
         {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode }}
-        <br>
-        <br>
+        <br><br>
+        
         <h2>Directions</h2>
         <a class="assertive" href="#">
           <i class="icon ion-location"></i>
@@ -32,9 +33,21 @@
         </a>
         <br>
         <br>
-
-        <!-- TODO: add more detials -->
-
+        <h2>Distance from search point</h2>
+        {{ hotel.distance | number : 2 }}km
+        <br><br>
+        
+        <h2>Low Rate</h2>
+        ${{hotel.info.LowRate}}
+        <h2>High Rate</h2>
+        ${{hotel.info.HighRate}}
+        <br><br>
+        
+        <h2>Property Description</h2>
+        <!-- TODO: remove tags -->
+        {{hotel.info.PropertyDescription}}
+        <br><br>
+        
         <!-- TODO: update to use ionic components -->
         <div class="row">
           <div class="item col col-40">
@@ -47,7 +60,7 @@
             <input type="text" placeholder="Number of Guests" name="num_guests" id="num_guests">
           </div>
         </div>
-
+        
         <button class="button button-block button-balanced">check for availability</button>
       </div>
     </div>

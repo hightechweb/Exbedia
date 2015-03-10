@@ -16,5 +16,5 @@ exbedia.controller("DetailsController", function($scope, $rootScope) {
 				newImageList.push(imageList[i]);
 		}
 		return newImageList;
-	  }
+	  };
 });
