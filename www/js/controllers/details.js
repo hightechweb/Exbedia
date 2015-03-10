@@ -8,7 +8,7 @@ exbedia.controller("DetailsController", function($scope, $rootScope) {
       * $scope.hotel = $rootScope.hotel;
       */
 	  
-	  $scope.filterNullImages = function(imageList) {
+	  $rootScope.filterNullImages = function(imageList) {
 		//copy array of imageList
 		var newImageList = [];
 		for(var i = 0; imageList && i < imageList.length; i++) {
