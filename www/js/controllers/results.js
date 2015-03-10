@@ -1,12 +1,12 @@
 function firebaseAuth(error) {
     if (error) {
-      console.log('Failed to authenticate to Firebase using token:'+ AUTH);
+        console.log('Failed to authenticate to Firebase using token:'+ AUTH);
     }
 }
 
 exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire, $rootScope) {
     // Get the search parameters from the search controller
-    $scope.params = $rootScope.searchParams;
+    $scope.params = $rootScope.searchParams || {};
 
     $scope.hotels = [];
 
@@ -39,10 +39,24 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
         var hotelObject = hotelResult.$asObject();
         if (hotelObject) {
             var hotel = {
+                id: hotelID,
                 info: hotelObject,
                 distance: distance
             };
             $scope.hotels.push(hotel);
         }
     });
+
+    // Take user to the details page
+    $scope.viewDetails = function(hotelObject) {
+        if (hotelObject && hotelObject.hasOwnProperty("id")) {
+            $rootScope.hotel = hotelObject;
+            $location.path("/details:" + hotelObject.id);
+        }
+        else {
+            // TODO: handle error
+            console.log("ERROR, hotelID was not defined. Cannot go anywhere");
+            return;
+        }
+    };
 });
