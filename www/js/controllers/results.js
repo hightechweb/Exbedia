@@ -6,6 +6,8 @@ function firebaseAuth(error) {
 
 exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire, $rootScope, $ionicViewService) {
     // Get the search parameters from the search controller
+    $scope.params = $rootScope.searchParams || {};
+
     $scope.hotels = [];
 
     // Below is all the code required to do a search for hotels based on geolocation
@@ -19,7 +21,7 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
     var geoFire = $geofire(fb_geodata);
     
     var geoFireQuery = geoFire.$query({
-        center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
+        center: [parseFloat($scope.params.lat), parseFloat($scope.params.lon)],
         radius: 10 // TODO: maybe make this a dynamic value
     });
 
@@ -37,6 +39,7 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
         var hotelObject = hotelResult.$asObject();
         if (hotelObject) {
             var hotel = {
+                id: hotelID,
                 info: hotelObject,
                 distance: distance
             };
@@ -44,8 +47,16 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
         }
     });
     
-    $scope.navigateToSearch = function() {
-        // navigate to search view with search parameters maintained
-        $location.path($ionicViewService.getBackView());
+    // Take user to the details page
+    $scope.viewDetails = function(hotelObject) {
+        if (hotelObject && hotelObject.hasOwnProperty("id")) {
+            $rootScope.hotel = hotelObject;
+            $location.path("/details:" + hotelObject.id);
+        }
+        else {
+            // TODO: handle error
+            console.log("ERROR, hotelID was not defined. Cannot go anywhere");
+            return;
     }
+    };
 });
