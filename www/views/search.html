@@ -1,20 +1,13 @@
 <ion-view>
+    <!-- TO DO: refactor to use logo image in the img folder -->
+    <img src="http://www.expediainc.com/wp-content/uploads/2013/06/expedia1.png"> 
     <ion-content ng-controller="SearchController" title="Search">
         <form name="searchForm">
-            <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc(this)" >
-				<!-- TO DO: refactor to use logo image in the img folder -->
-                <i class="icon ion-location"></i>
-                Use current location
-            </ion-checkbox>
             <label class="item item-input" ng-hide="useCurrentLocation">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
-                <img src="http://www.expediainc.com/wp-content/uploads/2013/06/expedia1.png"> 
-            </div>
             <div class="list list-inset">
                 <label class="item item-input" ng-hide="current.useCurrentLocation">
                     <i class="icon ion-search placeholder-icon"></i>
-                    <input type="text" placeholder="Destination, property name or landmark" name="search" id="search" ng-model="query.searchString">
+                    <input type="text" placeholder="Destination, property name or landmark" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
                 </label>
                 <ion-checkbox ng-model="current.useCurrentLocation" ng-change="getLoc()" >
                     <i class="icon ion-location"></i>

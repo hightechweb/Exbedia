@@ -57,6 +57,11 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
             // TODO: handle error
             console.log("ERROR, hotelID was not defined. Cannot go anywhere");
             return;
-    }
+        }
+    };
+
+    $scope.navigateToSearch = function() {
+        // navigate to search view with search parameters maintained
+        $location.path($ionicViewService.getBackView());
     };
 });
