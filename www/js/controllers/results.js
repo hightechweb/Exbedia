@@ -29,7 +29,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     
     // Listen for Angular Broadcast
     var numResults = 20; // TODO: temporarily hardcoded
-    var i = 0;
     $rootScope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
         if ($rootScope.hotels.length >= 20) {
             return; // Stop at 20 results
@@ -46,7 +45,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
             // Skip this result if it's a duplicate
             for (var h in $rootScope.hotels) {
                 if ($rootScope.hotels[h].id === hotel.id) {
-                    i--;
                     return;
                 }
             }
