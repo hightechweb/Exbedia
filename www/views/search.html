@@ -1,25 +1,24 @@
 <ion-view>
-    <!-- TO DO: refactor to use logo image in the img folder -->
-    <img src="http://www.expediainc.com/wp-content/uploads/2013/06/expedia1.png"> 
     <ion-content ng-controller="SearchController" title="Search">
+        <!-- TODO: refactor to use logo image in the img folder -->
+        <img src="http://www.expediainc.com/wp-content/uploads/2013/06/expedia1.png"> 
         <form name="searchForm">
-            <label class="item item-input" ng-hide="useCurrentLocation">
             <div class="list list-inset">
-                <label class="item item-input" ng-hide="current.useCurrentLocation">
+                <label class="item item-input" ng-hide="useCurrentLocation">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="text" placeholder="Destination, property name or landmark" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
                 </label>
-                <ion-checkbox ng-model="current.useCurrentLocation" ng-change="getLoc()" >
+                <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc(useCurrentLocation)" >
                     <i class="icon ion-location"></i>
                     Use current location
                 </ion-checkbox>
-                <label class="item item-input" ng-show="current.useCurrentLocation">
+                <label class="item item-input" ng-show="useCurrentLocation">
                     <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="query.lat"> 
                 </label>
-                <label class="item item-input" ng-show="current.useCurrentLocation">
+                <label class="item item-input" ng-show="useCurrentLocation">
                     <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="query.lon">
                 </label>
-                <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit()">
+                <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit(query, useCurrentLocation, googlePlaceData)">
             </div>
         </form>
     </ion-content>

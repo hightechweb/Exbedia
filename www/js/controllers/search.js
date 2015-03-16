@@ -1,14 +1,7 @@
-exbedia.controller('SearchController', function($scope, $location, $cordovaGeolocation, $rootScope) {
-    $scope.query = {};
-    $scope.googlePlaceData = null;
-    //restricting search option to US only
-    $scope.autocompleteOptions = {
-        componentRestrictions: { country: 'us' },
-        types: ['geocode']
-    };
-    
-    $scope.getLoc = function() {
-        if ($rootScope.current.useCurrentLocation) { // TODO: refactor
+exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope) {
+    $rootScope.getLoc = function(useCurrentLocation) {
+        $rootScope.useCurrentLocation = useCurrentLocation;
+        if (useCurrentLocation) {
             navigator.geolocation.getCurrentPosition(function(position) { 
                 $rootScope.$apply(function() {   
                     $rootScope.query = {
@@ -20,31 +13,37 @@ exbedia.controller('SearchController', function($scope, $location, $cordovaGeolo
         }
     };
        
-    $scope.formSubmit = function() {
+    $rootScope.formSubmit = function(query, useCurrentLocation, googlePlaceData) {
         // Default to current location
-        var query = $scope.query;
 
-        // Overwrite those values if using a Google Place
-        if (!$scope.useCurrentLocation &&
-            $scope.googlePlaceData &&
-            $scope.googlePlaceData.geometry &&
-            $scope.googlePlaceData.geometry.location &&
-            $scope.googlePlaceData.geometry.location.hasOwnProperty("k") &&
-            $scope.googlePlaceData.geometry.location.hasOwnProperty("D")
+        // Update variables used for search
+        $rootScope.query = query;
+        $rootScope.useCurrentLocation = useCurrentLocation;
+        $rootScope.googlePlaceData = googlePlaceData;
+
+        // Overwrite lat/lon if using a Google Place
+        if (!$rootScope.useCurrentLocation &&
+            $rootScope.googlePlaceData &&
+            $rootScope.googlePlaceData.geometry &&
+            $rootScope.googlePlaceData.geometry.location &&
+            $rootScope.googlePlaceData.geometry.location.hasOwnProperty("k") &&
+            $rootScope.googlePlaceData.geometry.location.hasOwnProperty("D")
             ) {
-            query.lat = $scope.googlePlaceData.geometry.location.k;
-            query.lon = $scope.googlePlaceData.geometry.location.D;
+            $rootScope.query = {
+                lat: $rootScope.googlePlaceData.geometry.location.k,
+                lon: $rootScope.googlePlaceData.geometry.location.D
+            };
         }
 
-        // Abort if bad values.
-        if (!query || !query.hasOwnProperty("lat") || !query.hasOwnProperty("lon")) {
+        // Abort if bad values
+        if (!$rootScope.query || !$rootScope.query.hasOwnProperty("lat") || !$rootScope.query.hasOwnProperty("lon")) {
             alert("Please pick a location");
             return;
         }
 
         console.log("We are trying to submit now...");
-        // Navigate to the results view with the specified parameters
-        $rootScope.searchParams = query;
+
+        // Search parameters are automagically passed via $rootScope
         $location.path("/results");
     };
 
