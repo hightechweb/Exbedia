@@ -1,32 +1,25 @@
 <ion-view>
-  <ion-content ng-controller="ResultsController" title="Results">
-    <!-- TODO: remove the following div once we figure out search from a city, etc.  -->
-    <!--
-    <div class="item">
-      Search criteria: <br>
-      {{ params | json }}
-    </div>
-    -->
-    <div class="card">
-      <div ng-repeat="hotel in hotels | orderBy:'distance'">
-        <div class="item item-divider item-text-wrap">
-          <span class="positive">{{ hotel.info.Name }}</span>
-          <br>
-          <span class="dark">{{ hotel.distance | number : 2 }}km away</span>
+    <ion-content>
+        <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToSearch()">Back</a>
+        <div class="list" ng-controller="ResultsController" title="Results">
+            <div class="card" ng-repeat="hotel in hotels | orderBy:'distance'" ng-click="viewDetails(hotel)">
+                <div class="item item-divider item-text-wrap">
+                    <span class="positive">{{ hotel.info.Name }}</span>
+                    <br>
+                    <span class="dark">{{ hotel.distance | number : 2 }}km away</span>
+                </div>
+            <div class="item item-text-wrap item-thumbnail-left">
+                <img ng-src="{{ hotel.info.Images | defaultImageUrl }}">
+                <div class="right">
+                    <address>
+                        ({{ hotel.info.Location }}) <br>
+                        {{ hotel.info.Address1 }} <br>
+                        {{ hotel.info.Address2 }} <br> <!-- TODO: only add a line break if Address2 is set -->
+                        {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode}} 
+                    </address>
+                    <span class="balanced">As low as {{ hotel.info.LowRate | currency }}!</span>
+                </div>
+            </div>
         </div>
-        <a class="item item-text-wrap item-thumbnail-left" href="#">
-          <img src="{{ hotel.info.Images | defaultImageUrl }}">
-          <div class="right">
-            <address>
-              ({{ hotel.info.Location }}) <br>
-              {{ hotel.info.Address1 }} <br>
-              {{ hotel.info.Address2 }} <br> <!-- TODO: only add a line break if Address2 is set -->
-              {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode}} 
-            </address>
-            <span class="balanced">As low as {{ hotel.info.LowRate | currency }}!</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </ion-content>
+    </ion-content>
 </ion-view>

@@ -1,4 +1,69 @@
 <ion-view>
-    <ion-content ng-controller="DetailsController" title="Details">
+    <ion-content ng-controller="DetailsController" title="Details" >
+        <!-- TODO: need to implement the back button -->
+        <div class="list card" ng-show="hotel">
+            <div class="item item-text-wrap">
+                <h2>{{ hotel.info.Name }}</h2>
+                <span class="right dark">{{ hotel.distance | number : 2 }}km away</span>
+            </div>
+
+            <div class="item center">
+                <ion-slide-box show-pager="false" does-continue="true">
+                    <ion-slide ng-repeat="image in filterNullImages(hotel.info.Images)">
+                        <img ng-src="{{image.imageUrl}}" height="250" width="auto"/>
+                    </ion-slide>
+                </ion-slide-box>
+                Swipe for more photos!
+            </div>
+
+            <div class="item item-text-wrap">
+                <h2>Star Rating</h2>
+                <!-- TODO: show star rating with stars, use ion-star, figure out partial stars -->
+                <!-- More info here: http://stackoverflow.com/questions/20506360/angular-repeat-span-n-times -->
+                {{ hotel.info.StarRating }}
+                <br>
+                <br>
+
+                <h2>Address</h2>
+                {{ hotel.info.Address1 }}
+                <br>
+                {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode }}
+                <br>
+                <br>
+
+                <h2>Directions</h2>
+                <a class="assertive" href="#">
+                    <i class="icon ion-location"></i>
+                    View Hotel on map
+                </a>
+                <br>
+                <br>
+
+                <h2>Rates from:</h2>
+                {{hotel.info.LowRate | currency}} to {{hotel.info.HighRate | currency}}
+                <br>
+                <br>
+
+                <h2>Property Description</h2>
+                <!-- Description may contain HTML, so we treat it accordingly -->
+                <div ng-bind-html="hotel.info.PropertyDescription"></div>
+                <br>
+                <br>
+
+            <!-- TODO: update to use ionic components -->
+            <div class="row">
+                <div class="item col col-40">
+                    <input type="text" placeholder="Check in" name="check-in" id="check-in">
+                </div>
+                <div class="item col col-40">
+                    <input type="text" placeholder="Check out" name="check-out" id="check-out">
+                </div>
+                <div class="item col col-20">
+                    <input type="text" placeholder="Number of Guests" name="num_guests" id="num_guests">
+                </div>
+            </div>
+
+            <button class="button button-block button-balanced">Check for availability</button>
+        </div>
     </ion-content>
 </ion-view>
