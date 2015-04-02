@@ -1,21 +1,23 @@
 <ion-view>
     <ion-content ng-controller="SearchController" title="Search">
         <form name="searchForm">
-            <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc(this)" >
-                <i class="icon ion-location"></i>
-                Use current location
-            </ion-checkbox>
-            <label class="item item-input" ng-hide="useCurrentLocation">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
-            </label>
-            <label class="item item-input" ng-show="useCurrentLocation">
-                <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="query.lat"> 
-            </label>
-            <label class="item item-input" ng-show="useCurrentLocation">
-                <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="query.lon">
-            </label>
-            <input type="submit" value="Find Hotels" class="button button-block button-balanced" ng-click="formSubmit(query)">
+            <div class="list list-inset">
+                <label class="item item-input" ng-hide="useCurrentLocation">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="Destination, property name or landmark" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
+                </label>
+                <ion-checkbox ng-model="useCurrentLocation" ng-change="getLoc(useCurrentLocation)" >
+                    <i class="icon ion-location"></i>
+                    Use current location
+                </ion-checkbox>
+                <label class="item item-input" ng-show="useCurrentLocation">
+                    <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="query.lat"> 
+                </label>
+                <label class="item item-input" ng-show="useCurrentLocation">
+                    <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="query.lon">
+                </label>
+                <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit(query, useCurrentLocation, googlePlaceData)">
+            </div>
         </form>
     </ion-content>
 </ion-view>

@@ -4,11 +4,10 @@ function firebaseAuth(error) {
     }
 }
 
-exbedia.controller('ResultsController', function($scope, $location, $firebase, $geofire, $rootScope) {
+exbedia.controller('ResultsController', function($location, $firebase, $geofire, $rootScope, $ionicViewService) {
     // Get the search parameters from the search controller
-    $scope.params = $rootScope.searchParams || {};
-
-    $scope.hotels = [];
+    $rootScope.query = $rootScope.query || {};
+    $rootScope.hotels = [];
 
     // Below is all the code required to do a search for hotels based on geolocation
     var AUTH = ''; // TODO: remove before commit
@@ -21,7 +20,7 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
     var geoFire = $geofire(fb_geodata);
     
     var geoFireQuery = geoFire.$query({
-        center: [parseFloat($scope.params.lat), parseFloat($scope.params.lon)],
+        center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
         radius: 10 // TODO: maybe make this a dynamic value
     });
 
@@ -30,9 +29,8 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
     
     // Listen for Angular Broadcast
     var numResults = 20; // TODO: temporarily hardcoded
-    var i = 0;
-    $scope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
-        if (i++ >= 20) {
+    $rootScope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
+        if ($rootScope.hotels.length >= 20) {
             return; // Stop at 20 results
         }
         var hotelResult = $firebase(fb_hotels.child(hotelID));
@@ -43,20 +41,32 @@ exbedia.controller('ResultsController', function($scope, $location, $firebase, $
                 info: hotelObject,
                 distance: distance
             };
-            $scope.hotels.push(hotel);
+
+            // Skip this result if it's a duplicate
+            for (var h in $rootScope.hotels) {
+                if ($rootScope.hotels[h].id === hotel.id) {
+                    return;
+                }
+            }
+            $rootScope.hotels.push(hotel);
         }
     });
-
+    
     // Take user to the details page
-    $scope.viewDetails = function(hotelObject) {
+    $rootScope.viewDetails = function(hotelObject) {
         if (hotelObject && hotelObject.hasOwnProperty("id")) {
             $rootScope.hotel = hotelObject;
             $location.path("/details:" + hotelObject.id);
         }
         else {
             // TODO: handle error
-            console.log("ERROR, hotelID was not defined. Cannot go anywhere");
+            console.log("ERROR, hotelID was not defined. Cannot go anywhere.");
             return;
         }
+    };
+
+    $rootScope.navigateToSearch = function() {
+        // navigate to search view with search parameters maintained
+        $location.path($ionicViewService.getBackView());
     };
 });
