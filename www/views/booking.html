@@ -1,0 +1,50 @@
+<ion-view>
+	<ion-content ng-controller="BookingController" title="Booking">
+		<div class="card">
+			<div class="item item-divider">
+				Hotel Booking Information
+			</div>
+			<div class="item item-text-wrap" ng-show="hotel">
+				<h2>{{ hotel.info.Name }}</h2>
+				<h2>{hotel.info.Address1 }}</h2>
+				<h2>{{hotel.info.City}}{{hotel.info.StateProvidence}}{{hotel.info.PostalCode}}</h2>
+				<label class="item item-input">
+					<span class="input-label">Check-in</span>
+					<input type="date" id="checkInDate">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Check-out</span>
+					<input type="date" id="checkOutDate">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Number of Guests</span>
+					<input type="number" id="num_guests">
+				</label>
+			</div>
+			<div class="list card">
+				<div class="item item-divider">
+					<h2>Guest Information</h2>
+				</div>
+				<div class="list">
+					<label class="item item-input">
+						<span class="input-label">First Name</span>
+						<input type="text" id="fName">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Last Name</span>
+						<input type="text" id="LName">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Email</span>
+						<input type="email" id="email">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Phone Number</span>
+						<input type="tel" id="tel">
+					</label>
+				</div>
+			</div>
+			<button class="button button-block button-balanced">Book it</button>
+		</div>
+	</ion-content>
+</ion-view>
