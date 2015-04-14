@@ -20,7 +20,6 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
         return newImageList;
     };
 
-    // TODO: need to implement the back button
     $rootScope.navigateToSearchResults = function() {
         // navigate to search view with search parameters maintained
         $location.path('/results');
