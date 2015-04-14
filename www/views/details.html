@@ -1,6 +1,7 @@
 <ion-view>
     <ion-content ng-controller="DetailsController" title="Details" >
         <!-- TODO: need to implement the back button -->
+        <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToSearchResults()">Back</a>
         <div class="list card" ng-show="hotel">
             <div class="item item-text-wrap">
                 <h2>{{ hotel.info.Name }}</h2>

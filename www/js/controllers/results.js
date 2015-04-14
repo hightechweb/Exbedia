@@ -4,7 +4,7 @@ function firebaseAuth(error) {
     }
 }
 
-exbedia.controller('ResultsController', function($location, $firebase, $geofire, $rootScope, $ionicViewService) {
+exbedia.controller('ResultsController', function($location, $firebase, $geofire, $rootScope) {
     // Get the search parameters from the search controller
     $rootScope.query = $rootScope.query || {};
     $rootScope.hotels = [];
@@ -67,6 +67,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
 
     $rootScope.navigateToSearch = function() {
         // navigate to search view with search parameters maintained
-        $location.path($ionicViewService.getBackView());
+        $location.path('/search');
     };
 });

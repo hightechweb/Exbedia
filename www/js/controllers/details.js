@@ -1,4 +1,4 @@
-exbedia.controller("DetailsController", function($rootScope, $location, $ionicViewService) {
+exbedia.controller("DetailsController", function($rootScope, $location) {
     /**
      * NOOP.
      * We don't have to do the following because this
@@ -21,4 +21,8 @@ exbedia.controller("DetailsController", function($rootScope, $location, $ionicVi
     };
 
     // TODO: need to implement the back button
+    $rootScope.navigateToSearchResults = function() {
+        // navigate to search view with search parameters maintained
+        $location.path('/results');
+    };
 });
