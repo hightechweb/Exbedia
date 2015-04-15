@@ -10,7 +10,7 @@
             <div class="item center">
                 <ion-slide-box show-pager="false" does-continue="true">
                     <ion-slide ng-repeat="image in filterNullImages(hotel.info.Images)">
-                        <img ng-src="{{image.imageUrl}}" height="250" width="auto"/>
+                        <img ng-src="{{image.imageUrl}}" height="250" />
                     </ion-slide>
                 </ion-slide-box>
                 Swipe for more photos!
@@ -50,20 +50,7 @@
                 <br>
                 <br>
 
-            <!-- TODO: update to use ionic components -->
-            <div class="row">
-                <div class="item col col-40">
-                    <input type="text" placeholder="Check in" name="check-in" id="check-in">
-                </div>
-                <div class="item col col-40">
-                    <input type="text" placeholder="Check out" name="check-out" id="check-out">
-                </div>
-                <div class="item col col-20">
-                    <input type="text" placeholder="Number of Guests" name="num_guests" id="num_guests">
-                </div>
-            </div>
-
-            <button class="button button-block button-balanced">Check for availability</button>
+            <button class="button button-block button-balanced" ng-click="book(hotel)">Book</button>
         </div>
     </ion-content>
 </ion-view>

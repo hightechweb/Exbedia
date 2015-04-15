@@ -20,5 +20,16 @@ exbedia.controller("DetailsController", function($rootScope, $location, $ionicVi
         return newImageList;
     };
 
+    $rootScope.book = function(hotelObject) {
+        if (hotelObject && hotelObject.hasOwnProperty("id")) {
+            $rootScope.hotel = hotelObject;
+            $location.path("/booking:" + hotelObject.id);
+        }
+        else {
+            // TODO: handle error
+            console.log("ERROR, hotelID was not defined. Cannot go anywhere.");
+            return;
+        }
+    };
     // TODO: need to implement the back button
 });
