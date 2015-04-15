@@ -4,10 +4,10 @@
 			<div class="item item-divider">
 				Hotel Booking Information
 			</div>
-			<div class="item item-text-wrap" ng-show="hotel">
+			<div class="item item-text-wrap">
 				<h2>{{ hotel.info.Name }}</h2>
-				<h2>{hotel.info.Address1 }}</h2>
-				<h2>{{hotel.info.City}}{{hotel.info.StateProvidence}}{{hotel.info.PostalCode}}</h2>
+				<h2>{{ hotel.info.Address1 }}</h2>
+				<h2>{{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode }}</h2>
 				<label class="item item-input">
 					<span class="input-label">Check-in</span>
 					<input type="date" id="checkInDate">
@@ -44,7 +44,7 @@
 					</label>
 				</div>
 			</div>
-			<button class="button button-block button-balanced" ng-click="navigateToConfirm()">Book it</button>
+			<button class="button button-block button-balanced" ng-click="navigateToConfirm(hotel)">Book it</button>
 		</div>
 	</ion-content>
 </ion-view>
