@@ -1,12 +1,12 @@
 <ion-view>
-    <ion-content>
+    <ion-content ng-controller="ConfirmationController" title="Confirmation" >
     	<div class="list card" ng-show="hotel">
           <div class="item item-text-wrap">
             <h2>Thank you for booking with Exbedia!</h2>
             <!--TODO: Show data from booking page-->
             <p>Your reservation at {{ hotel.info.Name }} on date 00-00-0000 is confirmed</p>
             <p>Your check-in time is 00:00am</p>
-            <p>Your confirmation number is: <strong>XXXXXX</strong> for your order total of $720.48</p>
+            <p>Your confirmation number is: <strong>{{ generateRandomNum(hotel.info.Name) }}</strong> for your order total of $720.48</p>
           </div>
 
           <div class="item item-image">

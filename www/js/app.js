@@ -60,13 +60,13 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         }).
         state('booking', {
             url: '/booking:hotelID',
-            templateUrl: './views/booking.html'
-            //controller: 'BookingController'
+            templateUrl: './views/booking.html',
+            controller: 'BookingController'
         }).
         state('confirmation', {
             url: '/confirmation:hotelID',
-            templateUrl: './views/confirmation.html'
-            //controller: 'ConfirmationController'
+            templateUrl: './views/confirmation.html',
+            controller: 'ConfirmationController'
         });
 
     $urlRouterProvider.otherwise('/');

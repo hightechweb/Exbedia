@@ -1,13 +1,6 @@
 exbedia.controller("DetailsController", function($rootScope, $location, $ionicViewService) {
-    /**
-     * NOOP.
-     * We don't have to do the following because this
-     * is a single page app, and hotels
-     * are already set on $rootScope in the results controller
-     *
-     * $scope.hotel = $rootScope.hotel;
-     */
-      
+
+    //Filter null images from an image list
     $rootScope.filterNullImages = function(imageList) {
         // Copy array of imageList
         var newImageList = [];
@@ -20,7 +13,8 @@ exbedia.controller("DetailsController", function($rootScope, $location, $ionicVi
         return newImageList;
     };
 
-    $rootScope.book = function(hotelObject) {
+    //Take user to booking page
+    $rootScope.navigateToBooking = function(hotelObject) {
         if (hotelObject && hotelObject.hasOwnProperty("id")) {
             $rootScope.hotel = hotelObject;
             $location.path("/booking:" + hotelObject.id);
@@ -31,5 +25,6 @@ exbedia.controller("DetailsController", function($rootScope, $location, $ionicVi
             return;
         }
     };
+
     // TODO: need to implement the back button
 });
