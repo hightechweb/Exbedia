@@ -12,4 +12,6 @@ exbedia.controller('BookingController', function($rootScope, $location){
 			return;
 		}
 	};
+
+	$rootScope.bookingInfo = {};
 });

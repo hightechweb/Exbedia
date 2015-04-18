@@ -9,17 +9,18 @@
 				<h2>{{ hotel.info.Name }}</h2>
 				<h2>{{ hotel.info.Address1 }}</h2>
 				<h2>{{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode }}</h2>
+				<!-- TODO: form validation -->
 				<label class="item item-input">
 					<span class="input-label">Check-in</span>
-					<input type="date" id="checkInDate">
+					<input type="date" id="checkInDate" ng-model="bookingInfo.checkInDate">
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Check-out</span>
-					<input type="date" id="checkOutDate">
+					<input type="date" id="checkOutDate" ng-model="bookingInfo.checkOutDate">
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Number of Guests</span>
-					<input type="number" id="num_guests">
+					<input type="number" id="num_guests" ng-model="bookingInfo.num_guests">
 				</label>
 			</div>
 			<div class="list card">
@@ -29,22 +30,23 @@
 				<div class="list">
 					<label class="item item-input">
 						<span class="input-label">First Name</span>
-						<input type="text" id="FName">
+						<input type="text" id="FName" ng-model="bookingInfo.FName">
 					</label>
 					<label class="item item-input">
 						<span class="input-label">Last Name</span>
-						<input type="text" id="LName">
+						<input type="text" id="LName" ng-model="bookingInfo.LName">
 					</label>
 					<label class="item item-input">
 						<span class="input-label">Email</span>
-						<input type="email" id="email">
+						<input type="email" id="email" ng-model="bookingInfo.email">
 					</label>
 					<label class="item item-input">
 						<span class="input-label">Phone Number</span>
-						<input type="tel" id="tel">
+						<input type="tel" id="tel" ng-model="bookingInfo.tel">
 					</label>
 				</div>
 			</div>
+
 			<button class="button button-block button-balanced" ng-click="navigateToConfirm(hotel)">Book it</button>
 		</div>
 	</ion-content>
