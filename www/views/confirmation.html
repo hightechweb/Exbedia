@@ -1,6 +1,11 @@
 <ion-view>
     <ion-content ng-controller="ConfirmationController" title="Confirmation" >
-    	<div class="list card" ng-show="hotel">
+      <!-- TODO: figure out if we want to do something better after going to confirmation
+      Without this "go back to search", they'd be stuck on the confirmation page until 
+      they kill the app. -->
+      <!-- This is re-using the function defined in the results.js controller -->
+      <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToSearch()">Back to search</a>
+      <div class="list card" ng-show="hotel">
           <div class="item item-text-wrap">
             <h2>Thank you for booking with Exbedia!</h2>
             <!--TODO: Show data from booking page-->
