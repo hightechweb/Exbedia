@@ -16,6 +16,11 @@ exbedia.controller('BookingController', function($rootScope, $location){
 
     $rootScope.navigateToDetails = function() {
         // navigate to details view for the previously viewed hotel
+
+        // TODO: better handling if hotel is somehow undefined or
+        // if it doesn't have the id property - which would
+        // lead to a JS error here and nothing happening.
+        // See how it was done in `navigateToBooking` in details.js
         $location.path('/details:' + $rootScope.hotel.id);
     };
 });
