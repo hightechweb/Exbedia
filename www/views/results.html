@@ -12,9 +12,9 @@
                 <img ng-src="{{ hotel.info.Images | defaultImageUrl }}">
                 <div class="right">
                     <address>
-                        ({{ hotel.info.Location }}) <br>
+                        <span ng-show="hotel.info.Locaiton">({{ hotel.info.Location }})</span> <br>
                         {{ hotel.info.Address1 }} <br>
-                        {{ hotel.info.Address2 }} <br> <!-- TODO: only add a line break if Address2 is set -->
+                        {{ hotel.info.Address2 }} <br ng-show="hotel.info.address2">
                         {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode}} 
                     </address>
                     <span class="balanced">As low as {{ hotel.info.LowRate | currency }}!</span>

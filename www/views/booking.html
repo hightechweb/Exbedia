@@ -1,0 +1,59 @@
+<ion-view>
+    <ion-content ng-controller="BookingController" title="Booking">
+        <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToDetails()">Back</a>
+        <div class="list card">
+            <div class="item item-text-wrap">
+                Booking a room
+            </div>
+            <div class="item item-text-wrap">
+                <div class="center">
+                    <h2>{{ hotel.info.Name }}</h2>
+                    <h2>{{ hotel.info.Address1 }}</h2>
+                    <h2>{{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode }}</h2>
+                    <br>
+                </div>
+
+                <!-- TODO: form validation; a quick way is making everything required
+                To make everything required just add the required attribute to every input tag.
+                 -->
+                <div class="item item-divider">
+                    <h2>Visit Information</h2>
+                </div>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Check-in</span>
+                    <input type="date" id="checkInDate" ng-model="bookingInfo.checkInDate">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Check-out</span>
+                    <input type="date" id="checkOutDate" ng-model="bookingInfo.checkOutDate">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Number of Guests</span>
+                    <input type="number" id="num_guests" ng-model="bookingInfo.num_guests">
+                </label>
+                <div class="item item-divider">
+                    <h2>Guest Information</h2>
+                </div>
+                <div class="list">
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">First Name</span>
+                        <input type="text" id="FName" ng-model="bookingInfo.FName">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Last Name</span>
+                        <input type="text" id="LName" ng-model="bookingInfo.LName">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" id="email" ng-model="bookingInfo.email">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Phone Number</span>
+                        <input type="tel" id="tel" ng-model="bookingInfo.tel">
+                    </label>
+                </div>
+
+            <button class="button button-block button-balanced" ng-click="navigateToConfirm(hotel)">Book it</button>
+        </div>
+    </ion-content>
+</ion-view>

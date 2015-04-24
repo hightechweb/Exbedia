@@ -1,13 +1,6 @@
 exbedia.controller("DetailsController", function($rootScope, $location) {
-    /**
-     * NOOP.
-     * We don't have to do the following because this
-     * is a single page app, and hotels
-     * are already set on $rootScope in the results controller
-     *
-     * $scope.hotel = $rootScope.hotel;
-     */
-      
+
+    // Filter null images from an image list
     $rootScope.filterNullImages = function(imageList) {
         // Copy array of imageList
         var newImageList = [];
@@ -18,6 +11,19 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
             }
         }
         return newImageList;
+    };
+
+    // Take user to booking page
+    $rootScope.navigateToBooking = function(hotelObject) {
+        if (hotelObject && hotelObject.hasOwnProperty("id")) {
+            $rootScope.hotel = hotelObject;
+            $location.path("/booking:" + hotelObject.id);
+        }
+        else {
+            // TODO: handle error
+            console.log("ERROR, hotelID was not defined. Cannot go anywhere.");
+            return;
+        }
     };
 
     $rootScope.navigateToSearchResults = function() {
