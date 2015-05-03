@@ -44,5 +44,5 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
             output += "<span class='ion-ios7-star-outline'></span>";
         }
         return output;
-    }
+    };
 });
