@@ -18,10 +18,7 @@
 
             <div class="item item-text-wrap">
                 <h2>Star Rating</h2>
-                <!-- TODO: show star rating with stars, use ion-star, figure out partial stars -->
-                <!-- More info here: http://stackoverflow.com/questions/20506360/angular-repeat-span-n-times -->
-                {{ hotel.info.StarRating }}
-                <br>
+                <div ng-bind-html="showStars(hotel.info.StarRating)"></div>
                 <br>
 
                 <h2>Address</h2>
