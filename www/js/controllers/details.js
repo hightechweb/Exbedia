@@ -30,4 +30,19 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
         // navigate to search view with search parameters maintained
         $location.path('/results');
     };
+
+    // Use star icons to display rating
+    $rootScope.showStars = function(starRating) {
+        var output = "";
+        for(var i = 1; i <= starRating; i++) {
+            output += "<span class='ion-ios7-star'></span>";
+        }
+        if(starRating != Math.ceil(starRating)) {
+            output += "<span class='ion-ios7-star-half'></span>";
+        }
+        for(var i = 0; i < 5 - Math.ceil(starRating); i++) {
+            output += "<span class='ion-ios7-star-outline'></span>";
+        }
+        return output;
+    };
 });
