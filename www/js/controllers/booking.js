@@ -60,6 +60,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
     function addBookingToFirebase(hotelObject, bookingInfo) {
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
         var booking = {
+            hotelID: hotelObject.id,
             checkInDate: bookingInfo.checkInDate,
             checkOutDate: bookingInfo.checkOutDate,
             firstName: bookingInfo.FName,
