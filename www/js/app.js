@@ -64,7 +64,7 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: 'BookingController'
         }).
         state('confirmation', {
-            url: '/confirmation:hotelID',
+            url: '/confirmation:bookingID',
             templateUrl: './views/confirmation.html',
             controller: 'ConfirmationController'
         });

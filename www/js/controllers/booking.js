@@ -20,7 +20,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                     // missing data
                     console.log("Missing the ", bookingKeys[k], " field.");
                     return;
-                    }
+                }
             }
             addBookingToFirebase(hotelObject, bookingInfo);
         }
@@ -54,11 +54,11 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
         return (hash >>> 0);
     };
 
-    var firebaseUrl = 'https://test-exbedia.firebaseio.com';
-    var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
-
     function addBookingToFirebase(hotelObject, bookingInfo) {
+        var firebaseUrl = 'https://test-exbedia.firebaseio.com';
+        var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
+        
         var booking = {
             hotelID: hotelObject.id,
             checkInDate: bookingInfo.checkInDate,
@@ -69,6 +69,6 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
         };
         firebaseBookings.child($rootScope.bookingID).set(booking);
 
-        $location.path("/confirmation:" + hotelObject.id);
+        $location.path("/confirmation:" + bookingID);
     } 
 })
