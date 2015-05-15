@@ -12,7 +12,7 @@
                 <img ng-src="{{ hotel.info.Images | defaultImageUrl }}">
                 <div class="right">
                     <address>
-                        <span ng-show="hotel.info.Locaiton">({{ hotel.info.Location }})</span> <br>
+                        <span ng-show="hotel.info.Location">({{ hotel.info.Location }})</span> <br>
                         {{ hotel.info.Address1 }} <br>
                         {{ hotel.info.Address2 }} <br ng-show="hotel.info.address2">
                         {{ hotel.info.City + ", " + hotel.info.StateProvince + " " + hotel.info.PostalCode}} 
