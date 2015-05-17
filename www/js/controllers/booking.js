@@ -69,6 +69,6 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
         };
         firebaseBookings.child($rootScope.bookingID).set(booking);
 
-        $location.path("/confirmation:" + bookingID);
+        $location.path("/confirmation:" + $rootScope.bookingID);
     } 
 })
