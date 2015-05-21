@@ -55,10 +55,12 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
     };
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
-        var firebaseUrl = 'https://test-exbedia.firebaseio.com';
+        // temp using test-admin-accounts firebase to
+        // test out Exbedia booking
+        var firebaseUrl = 'https://test-admin-accounts.firebaseio.com'
+        //var firebaseUrl = 'https://test-exbedia.firebaseio.com';
         var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
-        
         var booking = {
             hotelID: hotelObject.id,
             checkInDate: bookingInfo.checkInDate,
@@ -66,9 +68,45 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             firstName: bookingInfo.FName,
             lastName: bookingInfo.LName,
             tel: bookingInfo.tel,
+            num_guests: bookingInfo.num_guests
         };
-        firebaseBookings.child($rootScope.bookingID).set(booking);
-
-        $location.path("/confirmation:" + $rootScope.bookingID);
-    } 
+        // if it's an Exbedia hotel
+        if (hotelObject.id.indexOf("private_") === 0){
+            // set up reference to private property hotel
+            var roomsRef = new Firebase(firebaseUrl + '/hotels/' + hotelObject.id + '/rooms');
+            roomsRef.once('value', function(dataSnapshot) {
+                var assignedRoom;
+                if (dataSnapshot.numChildren() > 0){
+                    // room has one or more rooms
+                    // goes through all childern check if num guest less than maxGuest
+                    dataSnapshot.forEach(function(childSnapshot){
+                        var roomKey = childSnapshot.key();
+                        var roomData = childSnapshot.val();
+                        if(!assignedRoom && booking.num_guests <= roomData.maxGuests){
+                            assignedRoom = roomKey;
+                        }
+                    });
+                } else {
+                    //TODO: Tell user property has no rooms and return back to search
+                    // property has no rooms
+                    console.log("property has no rooms to book");
+                }
+                if (assignedRoom){
+                    //add room to booking information and book room
+                    booking.room = assignedRoom;
+                    //TODO: figure out why this doens't redirect to confirmation
+                    firebaseBookings.child($rootScope.bookingID).set(booking);
+                    $location.path("/confirmation:" + $rootScope.bookingID);
+                } else {
+                    console.log("property has no rooms");
+                    //TODO: tell user property has no rooms that meet their requirements
+                    // Deleate booking and redirect to search page
+                }
+            });
+        } else {
+            // not an Exbedia hotel
+            firebaseBookings.child($rootScope.bookingID).set(booking);
+            $location.path("/confirmation:" + $rootScope.bookingID);
+        }
+    }; 
 })
