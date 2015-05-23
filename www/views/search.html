@@ -2,6 +2,7 @@
     <ion-content ng-controller="SearchController" title="Search">
         <form name="searchForm">
             <div class="list list-inset">
+                <h3 class="form-title">Search</h3>
                 <label class="item item-input" ng-hide="useCurrentLocation">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="text" placeholder="Destination, property name or landmark" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
@@ -20,4 +21,7 @@
             </div>
         </form>
     </ion-content>
+    <div class="buttom center">
+        <button class="button button-positive" ng-click="navigateToBookingLookup()">Booking Lookup</button>
+    </div>
 </ion-view>

@@ -1,4 +1,4 @@
-exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope) {
+exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope, $firebase) {
     $rootScope.getLoc = function(useCurrentLocation) {
         $rootScope.useCurrentLocation = useCurrentLocation;
         if (useCurrentLocation) {
@@ -47,4 +47,8 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
         $location.path("/results");
     };
 
+    $rootScope.navigateToBookingLookup = function() {
+        // navigate to search view with search parameters maintained
+        $location.path('/booking_lookup');
+    };
 });

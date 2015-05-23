@@ -48,6 +48,11 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: './views/search.html',
             controller: 'SearchController'
         }).
+        state('booking_lookup', {
+            url: '/booking_lookup',
+            templateUrl: './views/booking_lookup.html',
+            controller: 'BookingLookupController'
+        }).
         state('results', {
             url: '/results',
             templateUrl: './views/results.html',
@@ -68,7 +73,6 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: './views/confirmation.html',
             controller: 'ConfirmationController'
         });
-
     $urlRouterProvider.otherwise('/');
 });
 

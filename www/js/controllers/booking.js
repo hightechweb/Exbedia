@@ -1,5 +1,6 @@
 exbedia.controller('BookingController', function($rootScope, $location, $firebase){
     $rootScope.bookingInfo = $rootScope.bookingInfo || {};
+    $rootScope.hotelInfo = $rootScope.hotel.info;
 
     // Take user to confirmation page
     $rootScope.navigateToConfirm = function(hotelObject, bookingInfo) {

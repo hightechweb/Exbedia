@@ -1,0 +1,20 @@
+<ion-view>
+    <ion-content ng-controller="BookingLookupController" title="BookingLookup">
+    	<a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToSearch()">Back</a>
+    	<form name = "bookingLookupForm">
+            <div class="list list-inset">
+                <h3 class="form-title">Booking Lookup</h3>
+                <label class="item item-input">
+                    <input type="text" id="bookingID" name="bookingID" placeholder="Enter your confirmation number" ng-model="bookingID">
+                </label>
+                <input type="submit" value="Find My Booking" class="button button-block button-balanced" ng-click="searchBooking(bookingID)"> 
+            </div>     
+        </form> 
+    </ion-content>
+    <!-- <div class="tabs tabs-light tabs-icon-top">
+            <a class="tab-item" href="/">
+                <i class="icon ion-search"></i>
+                Search
+            </a>
+    </div> -->
+</ion-view>
