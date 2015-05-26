@@ -65,6 +65,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             checkOutDate: bookingInfo.checkOutDate,
             firstName: bookingInfo.FName,
             lastName: bookingInfo.LName,
+            email: bookingInfo.email,
             tel: bookingInfo.tel,
         };
         firebaseBookings.child($rootScope.bookingID).set(booking);
