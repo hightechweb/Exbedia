@@ -1,3 +1,4 @@
+var AUTH = ''; // TODO: remove before commit
 function firebaseAuth(error) {
     if (error) {
         console.log('Failed to authenticate to Firebase using token:'+ AUTH);
@@ -10,12 +11,9 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     $rootScope.hotels = [];
 
     // Below is all the code required to do a search for hotels based on geolocation
-    var AUTH = ''; // TODO: remove before commit
-    var hotels_url = 'https://test-admin-accounts.firebaseio.com/hotels';
-    var geodata_url = 'https://test-admin-accounts.firebaseio.com/geohotels';
     //temp comment out to see if test-admin-account firebase works
-    //var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
-    //var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
+    var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
+    var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
     var fb_hotels = new Firebase(hotels_url);
     fb_hotels.authWithCustomToken(AUTH, firebaseAuth);
     var fb_geodata = new Firebase(geodata_url);
@@ -59,8 +57,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     $rootScope.viewDetails = function(hotelObject) {
         if (hotelObject && hotelObject.hasOwnProperty("id")) {
             $rootScope.hotel = hotelObject;
-            // set hotelObject to private_simplelogin:17 for testing
-            hotelObject.id = "private_simplelogin:23";
             $location.path("/details:" + hotelObject.id);
         }
         else {

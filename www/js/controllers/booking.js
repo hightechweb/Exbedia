@@ -1,4 +1,4 @@
-exbedia.controller('BookingController', function($rootScope, $location, $firebase){
+exbedia.controller('BookingController', function($rootScope, $location, $firebase, $timeout){
     $rootScope.bookingInfo = $rootScope.bookingInfo || {};
 
     // Take user to confirmation page
@@ -55,9 +55,8 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
     };
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
-        // temp using test-admin-accounts firebase to
-        // test out Exbedia booking
-        var firebaseUrl = 'https://test-admin-accounts.firebaseio.com'
+        // TODO: Set to Expedia Mobile
+        var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
         //var firebaseUrl = 'https://test-exbedia.firebaseio.com';
         var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
@@ -70,41 +69,67 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             tel: bookingInfo.tel,
             num_guests: bookingInfo.num_guests
         };
+
         // if it's an Exbedia hotel
-        if (hotelObject.id.indexOf("private_") === 0){
-            // set up reference to private property hotel
+        if (hotelObject && hotelObject.hasOwnProperty("id") && hotelObject.id.indexOf("private_") === 0){
             var roomsRef = new Firebase(firebaseUrl + '/hotels/' + hotelObject.id + '/rooms');
-            roomsRef.once('value', function(dataSnapshot) {
-                var assignedRoom;
-                if (dataSnapshot.numChildren() > 0){
-                    // room has one or more rooms
-                    // goes through all childern check if num guest less than maxGuest
-                    dataSnapshot.forEach(function(childSnapshot){
-                        var roomKey = childSnapshot.key();
-                        var roomData = childSnapshot.val();
-                        if(!assignedRoom && booking.num_guests <= roomData.maxGuests){
-                            assignedRoom = roomKey;
+            roomsRef.orderByChild('maxGuests').once('value',
+                function(dataSnapshot) {
+                    var assignedRoom;
+                    var roomData;
+                    if (dataSnapshot.numChildren() > 0) {
+                        var childData = dataSnapshot.exportVal();
+                        // room has one or more rooms
+                        // goes through all childern check if num guest less than maxGuest
+                        for (var ci in childData) {
+                            if (childData.hasOwnProperty(ci)) {
+                                var childSnapshot = childData[ci];
+                                roomData = childSnapshot;
+                                roomKey = ci;
+                                var maxGuests = roomData.maxGuests;
+                                if(!assignedRoom && booking.num_guests <= roomData.maxGuests){
+                                    // finds a room that meets requirements
+                                    assignedRoom = roomKey;
+                                }
+                            }
                         }
-                    });
-                } else {
-                    //TODO: Tell user property has no rooms and return back to search
-                    // property has no rooms
-                    console.log("property has no rooms to book");
+                        if (!assignedRoom){
+                            // reach here if no room was assigned
+                            // assigned to the last room and additional charges message
+                            assignedRoom = ci;
+                            booking.bookingMessage = "This room only allows " + roomData.maxGuests + ". There may be additional charges.";
+                        }
+                        if (assignedRoom) {
+                            //add a room that meets guest requirements
+                            booking.room = assignedRoom;
+                            firebaseBookings.child($rootScope.bookingID).set(booking);
+                            $timeout(function() {
+                                         $location.path("/confirmation:" + $rootScope.bookingID);
+                            }, 1);
+                        }
+                        else {
+                            // TODO: handle error
+                            // no room was assigned
+                            console.log("Error: room was not assigned");
+                        }
+
+                    }
+                    else {
+                        // booking a private property with no rooms
+                        booking.bookingMessage = "This booking is booking the whole property";
+                        firebaseBookings.child($rootScope.bookingID).set(booking);
+                        $timeout(function() {
+                                         $location.path("/confirmation:" + $rootScope.bookingID);
+                            }, 1);
+                    }
+                },
+                function(err) {
+                    console.log("Error: Firebase has no element ", err);
                 }
-                if (assignedRoom){
-                    //add room to booking information and book room
-                    booking.room = assignedRoom;
-                    //TODO: figure out why this doens't redirect to confirmation
-                    firebaseBookings.child($rootScope.bookingID).set(booking);
-                    $location.path("/confirmation:" + $rootScope.bookingID);
-                } else {
-                    console.log("property has no rooms");
-                    //TODO: tell user property has no rooms that meet their requirements
-                    // Deleate booking and redirect to search page
-                }
-            });
-        } else {
-            // not an Exbedia hotel
+            );
+        }
+        else { 
+            // reach this point if it's an Expedia hotel
             firebaseBookings.child($rootScope.bookingID).set(booking);
             $location.path("/confirmation:" + $rootScope.bookingID);
         }
