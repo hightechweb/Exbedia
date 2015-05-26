@@ -85,4 +85,17 @@ exbedia.run(function($ionicPlatform, $rootScope) {
         // Noop; not sure if we need to do anything here
         return;
     });
+    $rootScope.goToPath = function(path) {
+      if (!path) {
+        console.log("Can't go to ", path, " path");
+      }
+      else {
+        // Really weird AngularJS hack
+        $timeout(function() {
+           $location.path(path);
+        }, 1);
+      }
+    };
+
 });
+

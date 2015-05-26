@@ -55,9 +55,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
     };
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
-        // TODO: Set to Expedia Mobile
         var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
-        //var firebaseUrl = 'https://test-exbedia.firebaseio.com';
         var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
         var booking = {
@@ -81,7 +79,8 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                         var childData = dataSnapshot.exportVal();
                         // room has one or more rooms
                         // goes through all childern check if num guest less than maxGuest
-                        for (var ci in childData) {
+                        var ci;
+                        for (ci in childData) {
                             if (childData.hasOwnProperty(ci)) {
                                 var childSnapshot = childData[ci];
                                 roomData = childSnapshot;
@@ -103,9 +102,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                             //add a room that meets guest requirements
                             booking.room = assignedRoom;
                             firebaseBookings.child($rootScope.bookingID).set(booking);
-                            $timeout(function() {
-                                         $location.path("/confirmation:" + $rootScope.bookingID);
-                            }, 1);
+                            $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
                         }
                         else {
                             // TODO: handle error
@@ -118,9 +115,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                         // booking a private property with no rooms
                         booking.bookingMessage = "This booking is booking the whole property";
                         firebaseBookings.child($rootScope.bookingID).set(booking);
-                        $timeout(function() {
-                                         $location.path("/confirmation:" + $rootScope.bookingID);
-                            }, 1);
+                        $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
                     }
                 },
                 function(err) {

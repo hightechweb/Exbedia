@@ -9,9 +9,7 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     // Get the search parameters from the search controller
     $rootScope.query = $rootScope.query || {};
     $rootScope.hotels = [];
-
     // Below is all the code required to do a search for hotels based on geolocation
-    //temp comment out to see if test-admin-account firebase works
     var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
     var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
     var fb_hotels = new Firebase(hotels_url);
