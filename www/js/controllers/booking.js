@@ -1,4 +1,4 @@
-exbedia.controller('BookingController', function($rootScope, $location, $firebase, $timeout){
+exbedia.controller('BookingController', function($rootScope, $location, $firebase){
     $rootScope.bookingInfo = $rootScope.bookingInfo || {};
 
     // Take user to confirmation page
@@ -126,7 +126,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
         else { 
             // reach this point if it's an Expedia hotel
             firebaseBookings.child($rootScope.bookingID).set(booking);
-            $location.path("/confirmation:" + $rootScope.bookingID);
+            $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
         }
     }; 
 })
