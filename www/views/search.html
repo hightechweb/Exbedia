@@ -20,8 +20,14 @@
                 <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit(query, useCurrentLocation, googlePlaceData)">
             </div>
         </form>
+        <form name="bookingLookupForm">
+            <div class="list list-inset">
+                <h3 class="form-title">Booking Lookup</h3>
+                <label class="item item-input">
+                    <input type="text" id="bookingID" name="bookingID" placeholder="Enter your confirmation number" ng-model="bookingID">
+                </label>
+                <input type="submit" value="Find My Booking" class="button button-block button-balanced" ng-click="searchBooking(bookingID)"> 
+            </div>     
+        </form>
     </ion-content>
-    <div class="buttom center">
-        <button class="button button-positive" ng-click="navigateToBookingLookup()">Booking Lookup</button>
-    </div>
 </ion-view>
