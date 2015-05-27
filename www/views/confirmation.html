@@ -5,20 +5,20 @@
       they kill the app. -->
       <!-- This is re-using the function defined in the results.js controller -->
       <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToSearch()">Back to search</a>
-      <div class="list card" ng-show="hotelInfo">
+      <div class="list card" ng-show="hotel">
           <div class="item item-text-wrap">
             <h2>Thank you for booking with Exbedia!</h2>
             <!--TODO: Show data from booking page-->
-            <p>Your reservation at <strong>{{ hotelInfo.Name }}</strong> 
+            <p>Your reservation at <strong>{{ hotel.info.Name }}</strong> 
               from <strong>{{ bookingInfo.checkInDate}}</strong> 
               to <strong>{{ bookingInfo.checkOutDate}}</strong> is confirmed</p>
-            <p>Your check-in time is <strong>{{ hotelInfo.CheckInTime }}</strong></p>
+            <p>Your check-in time is <strong>{{ hotel.info.CheckInTime }}</strong></p>
             <p>Your confirmation number is: <strong>{{ bookingID }}</strong></p>
             <!-- TODO: show price -->
           </div>
 
           <div class="item item-image">
-            <img ng-src="{{ hotelInfo.Images | defaultImageUrl }}" style="max-width: 75%"/>
+            <img ng-src="{{ hotel.info.Images | defaultImageUrl }}" style="max-width: 75%"/>
           </div>
 
           <!-- <a class="item item-icon-left positive" href="#">

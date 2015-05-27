@@ -78,7 +78,7 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
             $rootScope.$apply(function() {
                 var hotelInfo = snapshot.val();
                 if(hotelInfo !== null) {
-                    $rootScope.hotelInfo = hotelInfo;
+                    $rootScope.hotel = {info: hotelInfo};
                     $location.path("/confirmation:" + $rootScope.bookingID);
                 }
                 else {
