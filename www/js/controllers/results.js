@@ -10,6 +10,7 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     $rootScope.query = $rootScope.query || {};
     $rootScope.hotels = [];
     // Below is all the code required to do a search for hotels based on geolocation
+    // for Expedia
     var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
     var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
     var fb_hotels = new Firebase(hotels_url);
@@ -28,11 +29,54 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     
     // Listen for Angular Broadcast
     var numResults = 20; // TODO: temporarily hardcoded
+
     $rootScope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
-        if ($rootScope.hotels.length >= 20) {
-            return; // Stop at 20 results
+        if ($rootScope.hotels.length >= 10) {
+            return;
         }
+
         var hotelResult = $firebase(fb_hotels.child(hotelID));
+        var hotelObject = hotelResult.$asObject();
+        if (hotelObject) {
+            var hotel = {
+                id: hotelID,
+                info: hotelObject,
+                distance: distance
+            };
+
+            // Skip this result if it's a duplicate
+            for (var h in $rootScope.hotels) {
+                if ($rootScope.hotels[h].id === hotel.id) {
+                    return;
+                }
+            }
+            $rootScope.hotels.push(hotel);
+        }
+    });
+    //results for Exbedia hotels
+    var hotels_url2 = 'https://test-admin-accounts.firebaseio.com/hotels';
+    var geodata_url2 = 'https://test-admin-accounts.firebaseio.com/geohotels';
+    var fb_hotels2 = new Firebase(hotels_url2);
+    fb_hotels2.authWithCustomToken(AUTH, firebaseAuth);
+    var fb_geodata2 = new Firebase(geodata_url2);
+    fb_geodata2.authWithCustomToken(AUTH, firebaseAuth);
+    var geoFire2 = $geofire(fb_geodata2);
+    
+    var geoFireQuery2 = geoFire2.$query({
+        center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
+        radius: 10 // TODO: maybe make this a dynamic value
+    });
+
+    // Setup Angular Broadcast event for when an object enters our query
+    var geoQueryCallback2 = geoFireQuery2.on("key_entered", "SEARCH:KEY_ENTERED2");
+    
+    // Listen for Angular Broadcast
+    var numResults = 20; // TODO: temporarily hardcoded
+    $rootScope.$on("SEARCH:KEY_ENTERED2", function (event, hotelID, location, distance) {
+        if ($rootScope.hotels.length >= 20) {
+            return;
+        }
+        var hotelResult = $firebase(fb_hotels2.child(hotelID));
         var hotelObject = hotelResult.$asObject();
         if (hotelObject) {
             var hotel = {
