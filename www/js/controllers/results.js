@@ -51,6 +51,9 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
                 }
             }
             $rootScope.hotels.push(hotel);
+            $rootScope.hotels.sort(function(a,b) {
+                return b.id - a.id;
+            });
         }
     });
     //results for Exbedia hotels
@@ -92,6 +95,9 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
                 }
             }
             $rootScope.hotels.push(hotel);
+            $rootScope.hotels.sort(function(a,b) {
+                return b.id - a.id;
+            });
         }
     });
     
@@ -112,4 +118,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
         // navigate to search view with search parameters maintained
         $location.path('/search');
     };
+
+
 });
