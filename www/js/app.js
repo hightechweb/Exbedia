@@ -72,7 +72,7 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 });
 
-exbedia.run(function($ionicPlatform, $rootScope) {
+exbedia.run(function($ionicPlatform, $rootScope, $timeout, $location) {
     // Initialize for Google Place API, allows us to use $rootScope exclusively
     $rootScope.googlePlaceData = null;
     // US properties only
