@@ -72,7 +72,7 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 });
 
-exbedia.run(function($ionicPlatform, $rootScope) {
+exbedia.run(function($ionicPlatform, $rootScope, $location, $http) {
     // Initialize for Google Place API, allows us to use $rootScope exclusively
     $rootScope.googlePlaceData = null;
     // US properties only
@@ -85,4 +85,36 @@ exbedia.run(function($ionicPlatform, $rootScope) {
         // Noop; not sure if we need to do anything here
         return;
     });
+    
+    $rootScope.defaultWelcomeEmailCallback = function(data, status, headers, config) {
+        $rootScope.backendError = data;
+        $location.path("/confirmation:" + $rootScope.bookingID);
+    };
+
+    // Takes a string bookingID, and 2 callback functions as parameters
+    // If the successCallback is omitted, use $rootScope.defaultWelcomeEmailCallback
+    // as defined above.
+    // If the errorCallback is omitted, use the successCallback for both
+    // The callbacks are of the form: function(data, status, headers, config)
+    $rootScope.sendConfirmationEmail = function(bookingID, successCallback, errorCallback) {
+      console.log('in send confirmation email');
+      if (!bookingID) {
+        console.log("Won't try to send a welcome email w/ invalid parameters");
+        return;
+      }
+      if (!successCallback) {
+        successCallback = $rootScope.defaultWelcomeEmailCallback;
+      }
+      if (!errorCallback) {
+        errorCallback = successCallback;
+      }
+      $http({
+        url: "http://localhost:1234/confirmation_email",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: JSON.stringify({"bookingID": bookingID})
+        }).success(successCallback).error(errorCallback);
+    };
 });
