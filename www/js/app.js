@@ -86,8 +86,9 @@ exbedia.run(function($ionicPlatform, $rootScope, $location, $http) {
         return;
     });
     
-    $rootScope.defaultWelcomeEmailCallback = function(data, status, headers, config) {
+    $rootScope.defaultConfirmationEmailCallback = function(data, status, headers, config) {
         $rootScope.backendError = data;
+        $location.path("/confirmation:" + $rootScope.bookingID);
     };
 
     // Takes a string bookingID, and 2 callback functions as parameters
@@ -95,19 +96,19 @@ exbedia.run(function($ionicPlatform, $rootScope, $location, $http) {
     // as defined above.
     // If the errorCallback is omitted, use the successCallback for both
     // The callbacks are of the form: function(data, status, headers, config)
-    $rootScope.sendConfirmationEmail = function(bookingID, successCallback, errorCallback) {
+    $rootScope.sendConfirmationEmail = function(bookingID, successCallback, errorCallback)
+    {
       if (!bookingID) {
         console.log("Won't try to send a welcome email w/ invalid parameters");
         return;
       }
       if (!successCallback) {
-        successCallback = $rootScope.defaultWelcomeEmailCallback;
+        successCallback = $rootScope.defaultConfirmationEmailCallback;
       }
       if (!errorCallback) {
         errorCallback = successCallback;
       }
       $http({
-        //url: "http://localhost:1234/confirmation_email",
         url: "http://backend.exbedia.us/confirmation_email",
         method: "POST",
         headers: {
