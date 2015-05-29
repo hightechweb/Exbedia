@@ -105,7 +105,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                             //add a room that meets guest requirements
                             booking.room = assignedRoom;
                             firebaseBookings.child($rootScope.bookingID).set(booking);
-                            firebaseHotels.child(hotelObject.id).child("bookings").child($rootScope.bookingID).set(true);
+                            firebaseHotels.child(hotelObject.id).child("bookings").push($rootScope.bookingID);
                             $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
                         }
                         else {
@@ -119,7 +119,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                         // booking a private property with no rooms
                         booking.bookingMessage = "This booking is booking the whole property";
                         firebaseBookings.child($rootScope.bookingID).set(booking);
-                        firebaseHotels.child(hotelObject.id).child("bookings").child($rootScope.bookingID).set(true);
+                        firebaseHotels.child(hotelObject.id).child("bookings").push($rootScope.bookingID);
                         $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
                     }
                 },
