@@ -21,9 +21,11 @@
             <img ng-src="{{ hotel.info.Images | defaultImageUrl }}" style="max-width: 75%"/>
           </div>
 
-          <div ng-show="backendError.code != 200">
-            <h3>Error from the email server</h3>
-            <p><font color="red">{{backendError.message}}</font></p>
+          <div class="card" ng-show="backendError.code != 200">
+            <div class="item item-text-wrap item-assertive">
+              <h3>Error from the email server</h3>
+              <p>{{backendError.message}}</p>
+            </div>
           </div>
           <!-- <a class="item item-icon-left positive" href="#">
             <i class="icon ion-location"></i>
