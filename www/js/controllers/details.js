@@ -40,7 +40,7 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
         if(starRating != Math.ceil(starRating)) {
             output += "<span class='ion-ios7-star-half'></span>";
         }
-        for(var i = 0; i < 5 - Math.ceil(starRating); i++) {
+        for(i = 0; i < 5 - Math.ceil(starRating); i++) {
             output += "<span class='ion-ios7-star-outline'></span>";
         }
         return output;

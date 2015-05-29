@@ -68,7 +68,6 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: './views/confirmation.html',
             controller: 'ConfirmationController'
         });
-
     $urlRouterProvider.otherwise('/');
 });
 

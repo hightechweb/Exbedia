@@ -1,4 +1,4 @@
-exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope) {
+exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope, $firebase) {
     $rootScope.getLoc = function(useCurrentLocation) {
         $rootScope.useCurrentLocation = useCurrentLocation;
         if (useCurrentLocation) {
@@ -47,4 +47,45 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
         $location.path("/results");
     };
 
+    $rootScope.searchBooking = function(bookingID) {
+        if(bookingID) {
+            var firebaseUrl = 'https://test-exbedia.firebaseio.com';
+            var firebaseConnection = new Firebase(firebaseUrl);
+            var ref = firebaseConnection.child('bookings');
+            ref.child(bookingID).once('value', function(snapshot) {
+                $rootScope.$apply(function() {
+                    var bookingInfo = snapshot.val();
+                    if(bookingInfo !== null) {
+                        $rootScope.bookingID = bookingID;
+                        $rootScope.bookingInfo = bookingInfo;
+                        checkIfHotelExists(firebaseConnection, bookingInfo.hotelID);
+                    }
+                    else {
+                        console.log("ERROR: bookingID not found.");
+                        alert("Invalid confirmation number");
+                    }
+                });
+            });
+        }
+        else {
+            alert("Please enter your confirmation number");
+        }
+    };
+
+    function checkIfHotelExists(firebaseConnection, hotelID) {
+        var ref = firebaseConnection.child('hotels');
+        ref.child(hotelID).once("value", function(snapshot) {
+            $rootScope.$apply(function() {
+                var hotelInfo = snapshot.val();
+                if(hotelInfo !== null) {
+                    $rootScope.hotel = {info: hotelInfo};
+                    $location.path("/confirmation:" + $rootScope.bookingID);
+                }
+                else {
+                    console.log("ERROR: hotelID not found.");
+                    alert("Invalid confirmation number");
+                }
+            });
+        });
+    };
 });
