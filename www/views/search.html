@@ -2,6 +2,7 @@
     <ion-content ng-controller="SearchController" title="Search">
         <form name="searchForm">
             <div class="list list-inset">
+                <h3>Search</h3>
                 <label class="item item-input" ng-hide="useCurrentLocation">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="text" placeholder="Destination, property name or landmark" g-places-autocomplete force-selection="true" options="autocompleteOptions" ng-model="googlePlaceData" />
@@ -18,6 +19,15 @@
                 </label>
                 <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit(query, useCurrentLocation, googlePlaceData)">
             </div>
+        </form>
+        <form name="bookingLookupForm">
+            <div class="list list-inset">
+                <h3>Booking Lookup</h3>
+                <label class="item item-input">
+                    <input type="text" id="bookingID" name="bookingID" placeholder="Enter your confirmation number" ng-model="bookingID">
+                </label>
+                <input type="submit" value="Find My Booking" class="button button-block button-positive" ng-click="searchBooking(bookingID)"> 
+            </div>     
         </form>
     </ion-content>
 </ion-view>
