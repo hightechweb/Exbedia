@@ -28,10 +28,10 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     var geoQueryCallback = geoFireQuery.on("key_entered", "SEARCH:KEY_ENTERED");
     
     // Listen for Angular Broadcast
-    var numResults = 20; // TODO: temporarily hardcoded
+    var numResults = 10; // TODO: temporarily hardcoded
 
     $rootScope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
-        if ($rootScope.hotels.length >= 10) {
+        if ($rootScope.hotels.length >= numResults) {
             return;
         }
 
@@ -51,6 +51,7 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
                 }
             }
             $rootScope.hotels.push(hotel);
+            //sort in descending order by id
             $rootScope.hotels.sort(function(a,b) {
                 return b.id - a.id;
             });
@@ -74,9 +75,9 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     var geoQueryCallback2 = geoFireQuery2.on("key_entered", "SEARCH:KEY_ENTERED2");
     
     // Listen for Angular Broadcast
-    var numResults = 20; // TODO: temporarily hardcoded
+    var numResults2 = 20; // TODO: temporarily hardcoded
     $rootScope.$on("SEARCH:KEY_ENTERED2", function (event, hotelID, location, distance) {
-        if ($rootScope.hotels.length >= 20) {
+        if ($rootScope.hotels.length >= numResults2) {
             return;
         }
         var hotelResult = $firebase(fb_hotels2.child(hotelID));
@@ -95,6 +96,7 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
                 }
             }
             $rootScope.hotels.push(hotel);
+            //sort in descending order by id
             $rootScope.hotels.sort(function(a,b) {
                 return b.id - a.id;
             });

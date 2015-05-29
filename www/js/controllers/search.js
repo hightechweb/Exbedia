@@ -20,7 +20,7 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
         $rootScope.query = query;
         $rootScope.useCurrentLocation = useCurrentLocation;
         $rootScope.googlePlaceData = googlePlaceData;
-        console.log($rootScope.googlePlaceData);
+        
 
         // Overwrite lat/lon if using a Google Place
         if (!$rootScope.useCurrentLocation &&
