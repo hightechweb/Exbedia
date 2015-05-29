@@ -68,8 +68,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             email: bookingInfo.email,
             tel: bookingInfo.tel,
         };
-        firebaseBookings.child($rootScope.bookingID).set(booking);
-
-        $location.path("/confirmation:" + $rootScope.bookingID);
+        firebaseBookings.child($rootScope.bookingID).set(booking);       
+        $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
     } 
 });
