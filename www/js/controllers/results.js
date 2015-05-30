@@ -5,12 +5,51 @@ function firebaseAuth(error) {
     }
 }
 
+function isHotelInList(hotelID, list) {
+    if (!hotelID || !list) {
+        throw new Error("SOMETHING BAD HAPPENED.");
+    }
+    for (var hotel in list) {
+        if (list[hotel].id === hotelID) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function addHotelToResults(hotel, list) {
+    list.push(hotel);
+    //sort in descending order by id
+    list.sort(function(a,b) {
+        // first check if they're the same.
+        // a) if they're the same, then sort by distance
+        // b) if they're not the same, then the private wins
+        var aPrivate = a.id.indexOf("private_") === 0;
+        var bPrivate = b.id.indexOf("private_") === 0;
+        
+        // TODO: I think this is an XOR, but double check. see if this can be simplififed
+        if ((aPrivate && bPrivate) || (!aPrivate && !bPrivate)) {
+            // A & B are of the same type, sort by distance
+            return a.distance - b.distance;
+        }
+        else if (aPrivate) {
+            // A is less than B
+            return -1;
+        }
+        else {
+            // A is greater than B
+            return 1;
+        }
+    });
+}
+
 exbedia.controller('ResultsController', function($location, $firebase, $geofire, $rootScope) {
     // Get the search parameters from the search controller
     $rootScope.query = $rootScope.query || {};
     $rootScope.hotels = [];
     // Below is all the code required to do a search for hotels based on geolocation
     // for Expedia
+    // TODO: Point to main firebase app
     var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
     var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
     var fb_hotels = new Firebase(hotels_url);
@@ -21,86 +60,52 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     
     var geoFireQuery = geoFire.$query({
         center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
-        radius: 10 // TODO: maybe make this a dynamic value
+        radius: 16 // This is km, about 10 miles
     });
 
     // Setup Angular Broadcast event for when an object enters our query
     var geoQueryCallback = geoFireQuery.on("key_entered", "SEARCH:KEY_ENTERED");
     
     // Listen for Angular Broadcast
-    var numResults = 10; // TODO: temporarily hardcoded
+    var numResults = 20; // Permanently hardcoded
+    // counters
+    var numExpedia = 0;
+    var numPrivate = 0;
 
     $rootScope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
-        if ($rootScope.hotels.length >= numResults) {
+        if ($rootScope.hotels.length >= numResults || isHotelInList(hotelID, $rootScope.hotels)) {
+            // Skip this hotel if we have enough, or if it's a duplicate
             return;
         }
 
         var hotelResult = $firebase(fb_hotels.child(hotelID));
         var hotelObject = hotelResult.$asObject();
-        if (hotelObject) {
-            var hotel = {
-                id: hotelID,
-                info: hotelObject,
-                distance: distance
-            };
-
-            // Skip this result if it's a duplicate
-            for (var h in $rootScope.hotels) {
-                if ($rootScope.hotels[h].id === hotel.id) {
-                    return;
-                }
-            }
-            $rootScope.hotels.push(hotel);
-            //sort in descending order by id
-            $rootScope.hotels.sort(function(a,b) {
-                return b.id - a.id;
-            });
-        }
-    });
-    //results for Exbedia hotels
-    var hotels_url2 = 'https://test-admin-accounts.firebaseio.com/hotels';
-    var geodata_url2 = 'https://test-admin-accounts.firebaseio.com/geohotels';
-    var fb_hotels2 = new Firebase(hotels_url2);
-    fb_hotels2.authWithCustomToken(AUTH, firebaseAuth);
-    var fb_geodata2 = new Firebase(geodata_url2);
-    fb_geodata2.authWithCustomToken(AUTH, firebaseAuth);
-    var geoFire2 = $geofire(fb_geodata2);
-    
-    var geoFireQuery2 = geoFire2.$query({
-        center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
-        radius: 10 // TODO: maybe make this a dynamic value
-    });
-
-    // Setup Angular Broadcast event for when an object enters our query
-    var geoQueryCallback2 = geoFireQuery2.on("key_entered", "SEARCH:KEY_ENTERED2");
-    
-    // Listen for Angular Broadcast
-    var numResults2 = 20; // TODO: temporarily hardcoded
-    $rootScope.$on("SEARCH:KEY_ENTERED2", function (event, hotelID, location, distance) {
-        if ($rootScope.hotels.length >= numResults2) {
+        if (!hotelObject) {
+            // Skip a bad hotelObject
             return;
         }
-        var hotelResult = $firebase(fb_hotels2.child(hotelID));
-        var hotelObject = hotelResult.$asObject();
-        if (hotelObject) {
-            var hotel = {
-                id: hotelID,
-                info: hotelObject,
-                distance: distance
-            };
+        // TODO: handle errors in the else case:
+        // 1) no/bad hotelObject
+        // 2) duplicate
 
-            // Skip this result if it's a duplicate
-            for (var h in $rootScope.hotels) {
-                if ($rootScope.hotels[h].id === hotel.id) {
-                    return;
-                }
-            }
-            $rootScope.hotels.push(hotel);
-            //sort in descending order by id
-            $rootScope.hotels.sort(function(a,b) {
-                return b.id - a.id;
-            });
+        var hotel = {
+            id: hotelID,
+            info: hotelObject,
+            distance: distance
+        };
+
+        var isPrivate = hotelID.indexOf("private_") === 0;
+        if (isPrivate && numPrivate < numResults) {
+            addHotelToResults(hotel, $rootScope.hotels);
+            numPrivate++;
         }
+        else if (!isPrivate && (numExpedia + numPrivate) < numResults) {
+            addHotelToResults(hotel, $rootScope.hotels);
+            numExpedia++;
+        }
+        // TODO: handle errors in the else case:
+        // 1) no/bad hotelObject
+        // ????
     });
     
     // Take user to the details page

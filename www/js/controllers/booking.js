@@ -55,6 +55,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
     }
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
+        // TODO: Update firebase url
         var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
         var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
         var firebaseHotels = new Firebase(firebaseUrl + '/hotels');
@@ -112,7 +113,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                         else {
                             // TODO: handle error
                             // no room was assigned
-                            console.log("Error: room was not assigned");
+                            alert("Error: room was not assigned");
                         }
 
                     }
