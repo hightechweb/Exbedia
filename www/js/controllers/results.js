@@ -46,7 +46,7 @@ function addHotelToResults(hotel, list) {
 exbedia.controller('ResultsController', function($location, $firebase, $geofire, $rootScope) {
     // Get the search parameters from the search controller
     $rootScope.query = $rootScope.query || {};
-    $rootScope.hotels = [];
+    $rootScope.hotels = $rootScope.hotels || [];
     // Below is all the code required to do a search for hotels based on geolocation
     // for Expedia
     // TODO: Point to main firebase app
@@ -101,13 +101,8 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
             numExpedia++;
             console.log($rootScope.hotels.length);
         }
-        else if ((numExpedia + numPrivate) >= numResults) {
-            console.log($rootScope.hotels.length);
-
-            console.log("Error: more than numResults with Expedia hotels?");
-        }
         else {
-            console.log("Different error");
+            console.log("Error: bad object");
         }
 
         // TODO: handle errors in the else case:
