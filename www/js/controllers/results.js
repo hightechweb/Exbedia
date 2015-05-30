@@ -84,9 +84,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
             // Skip a bad hotelObject
             return;
         }
-        // TODO: handle errors in the else case:
-        // 1) no/bad hotelObject
-        // 2) duplicate
 
         var hotel = {
             id: hotelID,
@@ -102,7 +99,17 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
         else if (!isPrivate && (numExpedia + numPrivate) < numResults) {
             addHotelToResults(hotel, $rootScope.hotels);
             numExpedia++;
+            console.log($rootScope.hotels.length);
         }
+        else if ((numExpedia + numPrivate) >= numResults) {
+            console.log($rootScope.hotels.length);
+
+            console.log("Error: more than numResults with Expedia hotels?");
+        }
+        else {
+            console.log("Different error");
+        }
+
         // TODO: handle errors in the else case:
         // 1) no/bad hotelObject
         // ????

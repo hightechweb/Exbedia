@@ -72,7 +72,6 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             email: bookingInfo.email,
             num_guests: bookingInfo.num_guests
         };
-
         // if it's an Exbedia hotel
         if (hotelObject && hotelObject.hasOwnProperty("id") && hotelObject.id.indexOf("private_") === 0){
             var roomsRef = new Firebase(firebaseUrl + '/hotels/' + hotelObject.id + '/rooms');
@@ -109,6 +108,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                             firebaseBookings.child($rootScope.bookingID).set(booking);
                             firebaseHotels.child(hotelObject.id).child("bookings").push($rootScope.bookingID);
                             $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+                            $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
                         }
                         else {
                             // TODO: handle error
@@ -123,6 +123,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
                         firebaseBookings.child($rootScope.bookingID).set(booking);
                         firebaseHotels.child(hotelObject.id).child("bookings").push($rootScope.bookingID);
                         $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+                        $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
                     }
                 },
                 function(err) {
@@ -134,6 +135,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             // reach this point if it's an Expedia hotel
             firebaseBookings.child($rootScope.bookingID).set(booking);
             $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+            $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
         }
     }; 
 });
