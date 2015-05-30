@@ -71,7 +71,7 @@ exbedia.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 });
 
-exbedia.run(function($ionicPlatform, $rootScope, $location, $http) {
+exbedia.run(function($ionicPlatform, $rootScope, $timeout, $location, $http) {
     // Initialize for Google Place API, allows us to use $rootScope exclusively
     $rootScope.googlePlaceData = null;
     // US properties only
@@ -84,6 +84,17 @@ exbedia.run(function($ionicPlatform, $rootScope, $location, $http) {
         // Noop; not sure if we need to do anything here
         return;
     });
+    $rootScope.goToPath = function(path) {
+      if (!path) {
+        console.log("Can't go to ", path, " path");
+      }
+      else {
+        // Really weird AngularJS hack
+        $timeout(function() {
+           $location.path(path);
+        }, 1);
+      }
+    };
     
     $rootScope.defaultConfirmationEmailCallback = function(data, status, headers, config) {
         $rootScope.backendError = data;
@@ -117,3 +128,4 @@ exbedia.run(function($ionicPlatform, $rootScope, $location, $http) {
         }).success(successCallback).error(errorCallback);
     };
 });
+

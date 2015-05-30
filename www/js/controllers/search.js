@@ -26,12 +26,12 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
             $rootScope.googlePlaceData &&
             $rootScope.googlePlaceData.geometry &&
             $rootScope.googlePlaceData.geometry.location &&
-            $rootScope.googlePlaceData.geometry.location.hasOwnProperty("k") &&
-            $rootScope.googlePlaceData.geometry.location.hasOwnProperty("D")
+            $rootScope.googlePlaceData.geometry.location.hasOwnProperty("A") &&
+            $rootScope.googlePlaceData.geometry.location.hasOwnProperty("F")
             ) {
             $rootScope.query = {
-                lat: $rootScope.googlePlaceData.geometry.location.k,
-                lon: $rootScope.googlePlaceData.geometry.location.D
+                lat: $rootScope.googlePlaceData.geometry.location.A,
+                lon: $rootScope.googlePlaceData.geometry.location.F
             };
         }
 

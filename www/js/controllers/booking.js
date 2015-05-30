@@ -55,10 +55,12 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
     }
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
-        var firebaseUrl = 'https://test-exbedia.firebaseio.com';
+        // TODO: Update firebase url
+        var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
         var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
+        var firebaseHotels = new Firebase(firebaseUrl + '/hotels');
+
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
-        
         var booking = {
             hotelID: hotelObject.id,
             checkInDate: bookingInfo.checkInDate,
@@ -67,8 +69,73 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             lastName: bookingInfo.LName,
             email: bookingInfo.email,
             tel: bookingInfo.tel,
+            email: bookingInfo.email,
+            num_guests: bookingInfo.num_guests
         };
-        firebaseBookings.child($rootScope.bookingID).set(booking);       
-        $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
-    } 
+        // if it's an Exbedia hotel
+        if (hotelObject && hotelObject.hasOwnProperty("id") && hotelObject.id.indexOf("private_") === 0){
+            var roomsRef = new Firebase(firebaseUrl + '/hotels/' + hotelObject.id + '/rooms');
+            roomsRef.orderByChild('maxGuests').once('value',
+                function(dataSnapshot) {
+                    var assignedRoom;
+                    var roomData;
+                    if (dataSnapshot.numChildren() > 0) {
+                        var childData = dataSnapshot.exportVal();
+                        // room has one or more rooms
+                        // goes through all childern check if num guest less than maxGuest
+                        var ci;
+                        for (ci in childData) {
+                            if (childData.hasOwnProperty(ci)) {
+                                var childSnapshot = childData[ci];
+                                roomData = childSnapshot;
+                                roomKey = ci;
+                                var maxGuests = roomData.maxGuests;
+                                if(!assignedRoom && booking.num_guests <= roomData.maxGuests){
+                                    // finds a room that meets requirements
+                                    assignedRoom = roomKey;
+                                }
+                            }
+                        }
+                        if (!assignedRoom){
+                            // reach here if no room was assigned
+                            // assigned to the last room and additional charges message
+                            assignedRoom = ci;
+                            booking.bookingMessage = "This room only allows " + roomData.maxGuests + ". There may be additional charges.";
+                        }
+                        if (assignedRoom) {
+                            //add a room that meets guest requirements
+                            booking.room = assignedRoom;
+                            firebaseBookings.child($rootScope.bookingID).set(booking);
+                            firebaseHotels.child(hotelObject.id).child("bookings").push($rootScope.bookingID);
+                            $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+                            $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
+                        }
+                        else {
+                            // TODO: handle error
+                            // no room was assigned
+                            alert("Error: room was not assigned");
+                        }
+
+                    }
+                    else {
+                        // booking a private property with no rooms
+                        booking.bookingMessage = "This booking is booking the whole property";
+                        firebaseBookings.child($rootScope.bookingID).set(booking);
+                        firebaseHotels.child(hotelObject.id).child("bookings").push($rootScope.bookingID);
+                        $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+                        $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
+                    }
+                },
+                function(err) {
+                    console.log("Error: Firebase has no element ", err);
+                }
+            );
+        }
+        else { 
+            // reach this point if it's an Expedia hotel
+            firebaseBookings.child($rootScope.bookingID).set(booking);
+            $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+            $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
+        }
+    }; 
 });
