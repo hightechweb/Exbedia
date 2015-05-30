@@ -1,41 +1,21 @@
 <ion-view>
     <ion-content ng-controller="ConfirmationController" title="Confirmation" >
-      <!-- TODO: figure out if we want to do something better after going to confirmation
-      Without this "go back to search", they'd be stuck on the confirmation page until 
-      they kill the app. -->
-      <!-- This is re-using the function defined in the results.js controller -->
-      <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="navigateToSearch()">Back to search</a>
-      <div class="list card" ng-show="hotel">
-          <div class="item item-text-wrap">
-            <h2>Thank you for booking with Exbedia!</h2>
-            <!--TODO: Show data from booking page-->
-            <p>Your reservation at <strong>{{ hotel.info.Name }}</strong> 
-              from <strong>{{ bookingInfo.checkInDate}}</strong> 
-              to <strong>{{ bookingInfo.checkOutDate}}</strong> is confirmed</p>
-            <p>Your check-in time is <strong>{{ hotel.info.CheckInTime }}</strong></p>
-            <p>Your confirmation number is: <strong>{{ bookingID }}</strong></p>
-            <!-- TODO: show price -->
-          </div>
-
-          <div class="item item-image">
-            <img ng-src="{{ hotel.info.Images | defaultImageUrl }}" style="max-width: 75%"/>
-          </div>
-
-          <div class="card" ng-show="backendError.code != 200">
-            <div class="item item-text-wrap item-assertive">
-              <h3>Error from the email server</h3>
-              <p>{{backendError.message}}</p>
+        <!-- This is re-using the function defined in the results.js controller -->
+        <button class="ion-chevron-left button-clear button-large" ng-click="navigateToSearch()">
+            <span class="ion-home"></span>
+        </button>
+        <div class="list card" ng-show="hotel">
+            <div class="item item-text-wrap">
+                <h2>Thank you for booking with Exbedia!</h2>
+                <p>Your reservation at <strong>{{ hotel.info.Name }}</strong> 
+                    from <strong>{{ bookingInfo.checkInDate}}</strong> 
+                    to <strong>{{ bookingInfo.checkOutDate}}</strong> is confirmed</p>
+                <p>Your confirmation number is: <strong>{{ bookingID }}</strong></p>
+                <!-- TODO: show price -->
             </div>
-          </div>
-          <!-- <a class="item item-icon-left positive" href="#">
-            <i class="icon ion-location"></i>
-            View Hotel on map
-          </a> -->
-          <!-- <br> -->
-          <!-- <a class="item item-icon-left positive" href="#">
-            <i class="icon ion-email"></i>
-            Send a confirmation email
-          </a> -->
+            <div class="item item-image">
+                <img ng-src="{{ hotel.info.Images | defaultImageUrl }}" style="max-width: 75%"/>
+            </div>
         </div>
     </ion-content>
 </ion-view>
