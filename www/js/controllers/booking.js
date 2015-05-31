@@ -1,4 +1,6 @@
-exbedia.controller('BookingController', function($rootScope, $location, $firebase){
+var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
+
+exbedia.controller('BookingController', function($rootScope, $firebase){
     $rootScope.bookingInfo = $rootScope.bookingInfo || {};
 
     // Take user to confirmation page
@@ -38,7 +40,7 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
         // if it doesn't have the id property - which would
         // lead to a JS error here and nothing happening.
         // See how it was done in `navigateToBooking` in details.js
-        $location.path('/details:' + $rootScope.hotel.id);
+        $rootScope.goToPath('/details:' + $rootScope.hotel.id);
     };
 
     function generateRandomNum(hotelName) {
@@ -56,9 +58,12 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
         // TODO: Update firebase url
-        var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
-        var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
-        var firebaseHotels = new Firebase(firebaseUrl + '/hotels');
+        // var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
+        // var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
+        // var firebaseHotels = new Firebase(firebaseUrl + '/hotels');
+        // TODO: refactor to use just 1 firebase ref, and call .child() on it
+        var firebaseBookings = new Firebase(firebaseURL + '/bookings');
+        var firebaseHotels = new Firebase(firebaseURL + '/hotels');
 
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
         var booking = {
@@ -71,9 +76,15 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             tel: bookingInfo.tel,
             num_guests: bookingInfo.num_guests
         };
+
+        if (!hotelObject || !hotelObject.hasOwnProperty("id")) {
+            // TODO: handle the error
+            console.log("Got a bad hotel, can't book it");
+        }
+
         // if it's an Exbedia hotel
-        if (hotelObject && hotelObject.hasOwnProperty("id") && hotelObject.id.indexOf("private_") === 0){
-            var roomsRef = new Firebase(firebaseUrl + '/hotels/' + hotelObject.id + '/rooms');
+        if (hotelObject.id.indexOf("private_") === 0){
+            var roomsRef = new Firebase(firebaseURL + '/hotels/' + hotelObject.id + '/rooms');
             roomsRef.orderByChild('maxGuests').once('value',
                 function(dataSnapshot) {
                     var assignedRoom;

@@ -1,4 +1,4 @@
-exbedia.controller("DetailsController", function($rootScope, $location) {
+exbedia.controller("DetailsController", function($rootScope) {
 
     // Filter null images from an image list
     $rootScope.filterNullImages = function(imageList) {
@@ -17,7 +17,7 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
     $rootScope.navigateToBooking = function(hotelObject) {
         if (hotelObject && hotelObject.hasOwnProperty("id")) {
             $rootScope.hotel = hotelObject;
-            $location.path("/booking:" + hotelObject.id);
+            $rootScope.goToPath("/booking:" + hotelObject.id);
         }
         else {
             // TODO: handle error
@@ -28,7 +28,7 @@ exbedia.controller("DetailsController", function($rootScope, $location) {
 
     $rootScope.navigateToSearchResults = function() {
         // navigate to search view with search parameters maintained
-        $location.path('/results');
+        $rootScope.goToPath('/results');
     };
 
     // Use star icons to display rating

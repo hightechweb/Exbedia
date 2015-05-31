@@ -84,21 +84,28 @@ exbedia.run(function($ionicPlatform, $rootScope, $timeout, $location, $http) {
         // Noop; not sure if we need to do anything here
         return;
     });
+
     $rootScope.goToPath = function(path) {
-      if (!path) {
-        console.log("Can't go to ", path, " path");
+        if (!path) {
+            console.log("Can't go to ", path, " path");
+        }
+        else {
+            // Really weird AngularJS hack to avoid race conditions
+            $timeout(function() {
+                $location.path(path);
+            }, 1);
       }
-      else {
-        // Really weird AngularJS hack
-        $timeout(function() {
-           $location.path(path);
-        }, 1);
-      }
+    };
+
+    // NOTE: This function is used in at least 3 views
+    $rootScope.navigateToSearch = function() {
+        // navigate to search view with search parameters maintained
+        $rootScope.goToPath('/search');
     };
     
     $rootScope.defaultConfirmationEmailCallback = function(data, status, headers, config) {
         $rootScope.backendError = data;
-        $location.path("/confirmation:" + $rootScope.bookingID);
+        $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
     };
 
     // Takes a string bookingID, and 2 callback functions as parameters
@@ -106,26 +113,27 @@ exbedia.run(function($ionicPlatform, $rootScope, $timeout, $location, $http) {
     // as defined above.
     // If the errorCallback is omitted, use the successCallback for both
     // The callbacks are of the form: function(data, status, headers, config)
-    $rootScope.sendConfirmationEmail = function(bookingID, successCallback, errorCallback)
-    {
-      if (!bookingID) {
-        console.log("Won't try to send a confirmation email w/ invalid parameters");
-        return;
-      }
-      if (!successCallback) {
-        successCallback = $rootScope.defaultConfirmationEmailCallback;
-      }
-      if (!errorCallback) {
-        errorCallback = successCallback;
-      }
-      $http({
-        url: "http://backend.exbedia.us/confirmation_email",
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        data: JSON.stringify({"bookingID": bookingID})
-        }).success(successCallback).error(errorCallback);
+    $rootScope.sendConfirmationEmail = function(bookingID, successCallback, errorCallback) {
+        if (!bookingID) {
+            console.log("Won't try to send a confirmation email w/ invalid parameters");
+            return;
+        }
+        if (!successCallback) {
+            successCallback = $rootScope.defaultConfirmationEmailCallback;
+        }
+        if (!errorCallback) {
+            errorCallback = successCallback;
+        }
+
+        $http.defaults.useXDomain = true;
+        $http({
+            url: "http://backend.exbedia.us/confirmation_email",
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: JSON.stringify({"bookingID": bookingID})
+            }).success(successCallback).error(errorCallback);
     };
 });
 
