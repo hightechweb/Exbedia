@@ -87,5 +87,5 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
                 }
             });
         });
-    };
+    }
 });
