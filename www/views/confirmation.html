@@ -17,10 +17,10 @@
                 <img ng-src="{{ hotel.info.Images | defaultImageUrl }}" style="max-width: 75%"/>
             </div>
 
-            <div class="card" ng-show="backendError && backendError.code != 200">
+            <div class="card" ng-show="backendError && backendError != 200">
                 <div class="item item-text-wrap item-assertive">
                     <h3>Error from the email server:</h3>
-                    <p>{{backendError.message}}</p>
+                    <p>{{ backendError.message }}</p>
                 </div>
             </div>
         </div>

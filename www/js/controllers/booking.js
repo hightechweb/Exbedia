@@ -57,13 +57,9 @@ exbedia.controller('BookingController', function($rootScope, $firebase){
     }
 
     function addBookingToFirebase(hotelObject, bookingInfo) {
-        // TODO: Update firebase url
-        // var firebaseUrl = 'https://test-admin-accounts.firebaseio.com';
-        // var firebaseBookings = new Firebase(firebaseUrl + '/bookings');
-        // var firebaseHotels = new Firebase(firebaseUrl + '/hotels');
-        // TODO: refactor to use just 1 firebase ref, and call .child() on it
-        var firebaseBookings = new Firebase(firebaseURL + '/bookings');
-        var firebaseHotels = new Firebase(firebaseURL + '/hotels');
+        var firebaseConnection = new Firebase(firebaseURL);
+        var firebaseBookings = firebaseConnection.child('bookings');
+        var firebaseHotels = firebaseConnection.child('hotels');
 
         $rootScope.bookingID = generateRandomNum(hotelObject.Name);
         var booking = {
@@ -84,7 +80,7 @@ exbedia.controller('BookingController', function($rootScope, $firebase){
 
         // if it's an Exbedia hotel
         if (hotelObject.id.indexOf("private_") === 0){
-            var roomsRef = new Firebase(firebaseURL + '/hotels/' + hotelObject.id + '/rooms');
+            var roomsRef = firebaseHotels.child(hotelObject.id + '/rooms');
             roomsRef.orderByChild('maxGuests').once('value',
                 function(dataSnapshot) {
                     var assignedRoom;

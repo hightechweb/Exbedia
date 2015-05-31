@@ -5,12 +5,11 @@ exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope,
         $rootScope.useCurrentLocation = useCurrentLocation;
         if (useCurrentLocation) {
             navigator.geolocation.getCurrentPosition(function(position) { 
-                $rootScope.$apply(function() {   
-                    $rootScope.query = {
-                        lat: position.coords.latitude,
-                        lon: position.coords.longitude
-                    };
-                });
+                $rootScope.query = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                };
+                $rootScope.$apply();
             });
         }
     };
@@ -50,7 +49,7 @@ exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope,
     };
 
     $rootScope.searchBooking = function(bookingID) {
-        if(!bookingID) {
+        if (!bookingID) {
             alert("Please enter your confirmation number");
             return;
         }
@@ -58,7 +57,7 @@ exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope,
         var firebaseConnection = new Firebase(firebaseURL);
         firebaseConnection.child("bookings/" + bookingID).once('value', function(bookingSnapshot) {
             var bookingInfo = bookingSnapshot.val();
-            if(bookingInfo && bookingInfo.hasOwnProperty("hotelID")) {
+            if (bookingInfo && bookingInfo.hasOwnProperty("hotelID")) {
                 checkIfHotelExists(firebaseConnection, bookingInfo, bookingID);
             }
             else {
@@ -71,19 +70,18 @@ exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope,
     function checkIfHotelExists(firebaseConnection, bookingInfo, bookingID) {
         var ref = firebaseConnection.child('hotels');
         ref.child(bookingInfo.hotelID).once("value", function(snapshot) {
-            $rootScope.$apply(function() {
-                var hotelInfo = snapshot.val();
-                if(hotelInfo !== null) {
-                    $rootScope.bookingID = bookingID;
-                    $rootScope.bookingInfo = bookingInfo;
-                    $rootScope.hotel = {info: hotelInfo};
-                    $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
-                }
-                else {
-                    console.log("ERROR: hotelID not found.");
-                    alert("Invalid confirmation number");
-                }
-            });
+            var hotelInfo = snapshot.val();
+            if (hotelInfo) {
+                $rootScope.bookingID = bookingID;
+                $rootScope.bookingInfo = bookingInfo;
+                $rootScope.hotel = {info: hotelInfo};
+                $rootScope.$apply();
+                $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+            }
+            else {
+                console.log("ERROR: hotelID not found.");
+                alert("Invalid confirmation number");
+            }
         });
     }
 });
