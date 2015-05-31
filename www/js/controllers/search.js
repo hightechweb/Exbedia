@@ -1,5 +1,3 @@
-var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
-
 exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope, $firebase) {
     $rootScope.enableSearch = true;
 
