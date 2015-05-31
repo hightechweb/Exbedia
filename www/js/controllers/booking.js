@@ -69,7 +69,6 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             lastName: bookingInfo.LName,
             email: bookingInfo.email,
             tel: bookingInfo.tel,
-            email: bookingInfo.email,
             num_guests: bookingInfo.num_guests
         };
         // if it's an Exbedia hotel
@@ -137,5 +136,5 @@ exbedia.controller('BookingController', function($rootScope, $location, $firebas
             $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
             $rootScope.sendConfirmationEmail($rootScope.bookingID, $rootScope.defaultConfirmationEmailCallback);        
         }
-    }; 
+    }
 });
