@@ -1,12 +1,5 @@
 var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
 
-var AUTH = ''; // TODO: remove before commit
-function firebaseAuth(error) {
-    if (error) {
-        console.log('Failed to authenticate to Firebase using token:'+ AUTH);
-    }
-}
-
 function isHotelInList(hotelID, list) {
     if (!hotelID || !list) {
         throw new Error("SOMETHING BAD HAPPENED.");
@@ -52,13 +45,10 @@ exbedia.controller('ResultsController', function($firebase, $geofire, $rootScope
 
     // Below is all the code required to do a search for hotels based on geolocation
 
-    // TODO: improve perf by using one Firebase and calling .child() on it
-    var hotels_url = firebaseURL + '/hotels';
-    var geodata_url =  firebaseURL + '/geohotels';
-    var fb_hotels = new Firebase(hotels_url);
-    fb_hotels.authWithCustomToken(AUTH, firebaseAuth);
-    var fb_geodata = new Firebase(geodata_url);
-    fb_geodata.authWithCustomToken(AUTH, firebaseAuth);
+    var firebaseConnection = new Firebase(firebaseURL);
+    var fb_hotels = firebaseConnection.child('/hotels');
+    var fb_geodata = firebaseConnection.child('/geohotels');
+    
     var geoFire = $geofire(fb_geodata);
     
     var geoFireQuery = geoFire.$query({
