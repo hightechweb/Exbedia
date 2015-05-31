@@ -11,13 +11,14 @@
                     <i class="icon ion-location"></i>
                     Use current location
                 </ion-checkbox>
-                <label class="item item-input" ng-show="useCurrentLocation">
+                <label class="item item-input" ng-show="false">
                     <input type="text" id="lat" name="lat" placeholder="Latitude" ng-model="query.lat"> 
                 </label>
-                <label class="item item-input" ng-show="useCurrentLocation">
+                <label class="item item-input" ng-show="false">
                     <input type="text" id="lon" name="lon" placeholder="Longitude" ng-model="query.lon">
                 </label>
-                <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit(query, useCurrentLocation, googlePlaceData)">
+                <input type="submit" value="Explore" class="button button-block button-balanced" ng-click="formSubmit(query, useCurrentLocation, googlePlaceData)" ng-if="enableSearch">
+                <input type="submit" value="Loading..." class="button button-block button-stable" ng-if="!enableSearch">
             </div>
         </form>
         <form name="bookingLookupForm">

@@ -1,7 +1,12 @@
+var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
+
 exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope, $firebase) {
+    $rootScope.enableSearch = true;
+
     $rootScope.getLoc = function(useCurrentLocation) {
         $rootScope.useCurrentLocation = useCurrentLocation;
         if (useCurrentLocation) {
+            $rootScope.enableSearch = false;
             navigator.geolocation.getCurrentPosition(function(position) { 
                 $rootScope.$apply(function() {   
                     $rootScope.query = {
