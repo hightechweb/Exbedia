@@ -24,6 +24,9 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
         $rootScope.useCurrentLocation = useCurrentLocation;
         $rootScope.googlePlaceData = googlePlaceData;
 
+        // Reset search results, this happens when trying to search a second time
+        $rootScope.hotels = [];
+
         // Overwrite lat/lon if using a Google Place
         if (!$rootScope.useCurrentLocation &&
             $rootScope.googlePlaceData &&
