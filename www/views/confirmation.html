@@ -7,9 +7,8 @@
         <div class="list card" ng-show="hotel">
             <div class="item item-text-wrap">
                 <h2>Thank you for booking with Exbedia!</h2>
-                <p>Your reservation at <strong>{{ hotel.info.Name }}</strong> 
-                    from <strong>{{ bookingInfo.checkInDate}}</strong> 
-                    to <strong>{{ bookingInfo.checkOutDate}}</strong> is confirmed</p>
+                <p>Your reservation at <strong>{{ hotel.info.Name }}</strong> is confirmed</p>
+                <p>From <strong>{{ bookingInfo.checkInDate}}</strong> to <strong>{{ bookingInfo.checkOutDate}}</strong>
                 <p>Your confirmation number is: <strong>{{ bookingID }}</strong></p>
                 <!-- TODO: show price -->
             </div>
