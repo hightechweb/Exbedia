@@ -99,7 +99,6 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
         else if (!isPrivate && (numExpedia + numPrivate) < numResults) {
             addHotelToResults(hotel, $rootScope.hotels);
             numExpedia++;
-            console.log($rootScope.hotels.length);
         }
         else {
             console.log("Error: bad object");

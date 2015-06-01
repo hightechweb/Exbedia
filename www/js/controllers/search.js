@@ -8,12 +8,12 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
         if (useCurrentLocation) {
             $rootScope.enableSearch = false;
             navigator.geolocation.getCurrentPosition(function(position) { 
-                $rootScope.$apply(function() {   
-                    $rootScope.query = {
-                        lat: position.coords.latitude,
-                        lon: position.coords.longitude
-                    };
-                });
+                $rootScope.query = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                };
+                $rootScope.enableSearch = true;
+                $rootScope.$apply();
             });
         }
     };
