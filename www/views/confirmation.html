@@ -1,5 +1,5 @@
 <ion-view>
-    <ion-content ng-controller="ConfirmationController" title="Confirmation" >
+    <ion-content ng-controller="ConfirmationController" title="Confirmation">
         <!-- This is re-using the function defined in the results.js controller -->
         <button class="ion-chevron-left button-clear button-large" ng-click="navigateToSearch()">
             <span class="ion-home"></span>
@@ -15,6 +15,13 @@
             </div>
             <div class="item item-image">
                 <img ng-src="{{ hotel.info.Images | defaultImageUrl }}" style="max-width: 75%"/>
+            </div>
+
+            <div class="card" ng-show="backendError && backendError != 200">
+                <div class="item item-text-wrap item-assertive">
+                    <h3>Error from the email server:</h3>
+                    <p>{{ backendError.message }}</p>
+                </div>
             </div>
         </div>
     </ion-content>
