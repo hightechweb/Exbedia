@@ -33,6 +33,10 @@ exbedia.controller("DetailsController", function($rootScope) {
 
     // Use star icons to display rating
     $rootScope.showStars = function(starRating) {
+        // Handle case of nothing
+        if (!starRating) {
+            return "";
+        }
         var output = "";
         for(var i = 1; i <= starRating; i++) {
             output += "<span class='ion-ios7-star'></span>";
