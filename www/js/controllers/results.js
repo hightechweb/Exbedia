@@ -1,9 +1,4 @@
-var AUTH = ''; // TODO: remove before commit
-function firebaseAuth(error) {
-    if (error) {
-        console.log('Failed to authenticate to Firebase using token:'+ AUTH);
-    }
-}
+var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
 
 function isHotelInList(hotelID, list) {
     if (!hotelID || !list) {
@@ -19,7 +14,7 @@ function isHotelInList(hotelID, list) {
 
 function addHotelToResults(hotel, list) {
     list.push(hotel);
-    //sort in descending order by id
+    
     list.sort(function(a,b) {
         // first check if they're the same.
         // a) if they're the same, then sort by distance
@@ -27,7 +22,7 @@ function addHotelToResults(hotel, list) {
         var aPrivate = a.id.indexOf("private_") === 0;
         var bPrivate = b.id.indexOf("private_") === 0;
         
-        // TODO: I think this is an XOR, but double check. see if this can be simplififed
+        // Logical XNOR
         if ((aPrivate && bPrivate) || (!aPrivate && !bPrivate)) {
             // A & B are of the same type, sort by distance
             return a.distance - b.distance;
@@ -43,24 +38,22 @@ function addHotelToResults(hotel, list) {
     });
 }
 
-exbedia.controller('ResultsController', function($location, $firebase, $geofire, $rootScope) {
+exbedia.controller('ResultsController', function($firebase, $geofire, $rootScope) {
     // Get the search parameters from the search controller
     $rootScope.query = $rootScope.query || {};
     $rootScope.hotels = $rootScope.hotels || [];
+
     // Below is all the code required to do a search for hotels based on geolocation
-    // for Expedia
-    // TODO: Point to main firebase app
-    var hotels_url = 'https://glowing-heat-3430.firebaseio.com/hotels';
-    var geodata_url = 'https://glowing-heat-3430.firebaseio.com/geohotels';
-    var fb_hotels = new Firebase(hotels_url);
-    fb_hotels.authWithCustomToken(AUTH, firebaseAuth);
-    var fb_geodata = new Firebase(geodata_url);
-    fb_geodata.authWithCustomToken(AUTH, firebaseAuth);
+
+    var firebaseConnection = new Firebase(firebaseURL);
+    var fb_hotels = firebaseConnection.child('/hotels');
+    var fb_geodata = firebaseConnection.child('/geohotels');
+    
     var geoFire = $geofire(fb_geodata);
     
     var geoFireQuery = geoFire.$query({
         center: [parseFloat($rootScope.query.lat), parseFloat($rootScope.query.lon)],
-        radius: 16 // This is km, about 10 miles
+        radius: 8 // This is km, about 5 miles
     });
 
     // Setup Angular Broadcast event for when an object enters our query
@@ -72,6 +65,8 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     var numExpedia = 0;
     var numPrivate = 0;
 
+    // The logic here is basically get as many private (Exbedia) hotels as possible
+    // (upt to 20). If there's less than 20, get Expedia hotels until we have 20.
     $rootScope.$on("SEARCH:KEY_ENTERED", function (event, hotelID, location, distance) {
         if ($rootScope.hotels.length >= numResults || isHotelInList(hotelID, $rootScope.hotels)) {
             // Skip this hotel if we have enough, or if it's a duplicate
@@ -113,19 +108,11 @@ exbedia.controller('ResultsController', function($location, $firebase, $geofire,
     $rootScope.viewDetails = function(hotelObject) {
         if (hotelObject && hotelObject.hasOwnProperty("id")) {
             $rootScope.hotel = hotelObject;
-            $location.path("/details:" + hotelObject.id);
+            $rootScope.goToPath("/details:" + hotelObject.id);
         }
         else {
             // TODO: handle error
             console.log("ERROR, hotelID was not defined. Cannot go anywhere.");
-            return;
         }
     };
-
-    $rootScope.navigateToSearch = function() {
-        // navigate to search view with search parameters maintained
-        $location.path('/search');
-    };
-
-
 });

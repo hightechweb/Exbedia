@@ -1,6 +1,8 @@
-exbedia.controller('SearchController', function($location, $cordovaGeolocation, $rootScope, $firebase) {
-    $rootScope.enableSearch = true;
+var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
 
+exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope, $firebase) {
+    $rootScope.enableSearch = true;
+    
     $rootScope.getLoc = function(useCurrentLocation) {
         $rootScope.useCurrentLocation = useCurrentLocation;
         if (useCurrentLocation) {
@@ -50,48 +52,43 @@ exbedia.controller('SearchController', function($location, $cordovaGeolocation, 
         console.log("We are trying to submit now...");
 
         // Search parameters are automagically passed via $rootScope
-        $location.path("/results");
+        $rootScope.goToPath("/results");
     };
 
     $rootScope.searchBooking = function(bookingID) {
-        if(bookingID) {
-            var firebaseUrl = 'https://test-exbedia.firebaseio.com';
-            var firebaseConnection = new Firebase(firebaseUrl);
-            var ref = firebaseConnection.child('bookings');
-            ref.child(bookingID).once('value', function(snapshot) {
-                $rootScope.$apply(function() {
-                    var bookingInfo = snapshot.val();
-                    if(bookingInfo !== null) {
-                        $rootScope.bookingID = bookingID;
-                        $rootScope.bookingInfo = bookingInfo;
-                        checkIfHotelExists(firebaseConnection, bookingInfo.hotelID);
-                    }
-                    else {
-                        console.log("ERROR: bookingID not found.");
-                        alert("Invalid confirmation number");
-                    }
-                });
-            });
-        }
-        else {
+        if (!bookingID) {
             alert("Please enter your confirmation number");
+            return;
         }
+
+        var firebaseConnection = new Firebase(firebaseURL);
+        firebaseConnection.child("bookings/" + bookingID).once('value', function(bookingSnapshot) {
+            var bookingInfo = bookingSnapshot.val();
+            if (bookingInfo && bookingInfo.hasOwnProperty("hotelID")) {
+                checkIfHotelExists(firebaseConnection, bookingInfo, bookingID);
+            }
+            else {
+                console.log("ERROR: Invalid confirmation number");
+                alert("Invalid confirmation number");
+            }
+        });
     };
 
-    function checkIfHotelExists(firebaseConnection, hotelID) {
+    function checkIfHotelExists(firebaseConnection, bookingInfo, bookingID) {
         var ref = firebaseConnection.child('hotels');
-        ref.child(hotelID).once("value", function(snapshot) {
-            $rootScope.$apply(function() {
-                var hotelInfo = snapshot.val();
-                if(hotelInfo !== null) {
-                    $rootScope.hotel = {info: hotelInfo};
-                    $location.path("/confirmation:" + $rootScope.bookingID);
-                }
-                else {
-                    console.log("ERROR: hotelID not found.");
-                    alert("Invalid confirmation number");
-                }
-            });
+        ref.child(bookingInfo.hotelID).once("value", function(snapshot) {
+            var hotelInfo = snapshot.val();
+            if (hotelInfo) {
+                $rootScope.bookingID = bookingID;
+                $rootScope.bookingInfo = bookingInfo;
+                $rootScope.hotel = {info: hotelInfo};
+                $rootScope.$apply();
+                $rootScope.goToPath("/confirmation:" + $rootScope.bookingID);
+            }
+            else {
+                console.log("ERROR: hotelID not found.");
+                alert("Invalid confirmation number");
+            }
         });
     }
 });
