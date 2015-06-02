@@ -1,14 +1,18 @@
 var firebaseURL = "https://glowing-heat-3430.firebaseio.com/";
 
 exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope, $firebase) {
+    $rootScope.enableSearch = true;
+    
     $rootScope.getLoc = function(useCurrentLocation) {
         $rootScope.useCurrentLocation = useCurrentLocation;
         if (useCurrentLocation) {
+            $rootScope.enableSearch = false;
             navigator.geolocation.getCurrentPosition(function(position) { 
                 $rootScope.query = {
                     lat: position.coords.latitude,
                     lon: position.coords.longitude
                 };
+                $rootScope.enableSearch = true;
                 $rootScope.$apply();
             });
         }
@@ -21,6 +25,9 @@ exbedia.controller('SearchController', function($cordovaGeolocation, $rootScope,
         $rootScope.query = query;
         $rootScope.useCurrentLocation = useCurrentLocation;
         $rootScope.googlePlaceData = googlePlaceData;
+
+        // Reset search results, this happens when trying to search a second time
+        $rootScope.hotels = [];
 
         // Overwrite lat/lon if using a Google Place
         if (!$rootScope.useCurrentLocation &&
